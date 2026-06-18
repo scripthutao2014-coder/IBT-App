@@ -7,9 +7,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
-    /* ============================================================
-       CSS VARIABLES & RESET
-    ============================================================ */
     :root {
       --bg-primary:    #0d1117;
       --bg-secondary:  #161b22;
@@ -38,14 +35,61 @@
       --trans:         .18s ease;
       --font:          'Inter', sans-serif;
     }
+
+    /* ===== EXPLORE & MESSAGE REQUEST ===== */
+.explore-grid {
+  display: flex; flex-direction: column; gap: 10px; padding: 12px;
+}
+.explore-card {
+  background: var(--bg-secondary); border: 1px solid var(--border);
+  border-radius: var(--radius-lg); padding: 14px;
+  display: flex; flex-direction: column; gap: 10px;
+  transition: border-color var(--trans);
+}
+.explore-card:hover { border-color: var(--accent); }
+.explore-card-top { display: flex; align-items: center; gap: 12px; }
+.explore-card-info { flex: 1; min-width: 0; }
+.explore-card-name { font-size: 15px; font-weight: 600; }
+.explore-card-uid { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.explore-card-bio {
+  font-size: 13px; color: var(--text-secondary); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.explore-card-status { font-size: 12px; color: var(--text-muted); }
+.explore-card-status.online { color: var(--accent); }
+.explore-card-actions { display: flex; gap: 8px; }
+.btn-msg-request {
+  flex: 1; padding: 8px; background: var(--accent); color: #000;
+  border-radius: var(--radius-md); font-size: 13px; font-weight: 600;
+  transition: background var(--trans); text-align: center;
+}
+.btn-msg-request:hover { background: var(--accent-dark); }
+.btn-msg-request:disabled { opacity: .45; cursor: not-allowed; }
+
+.msg-req-item {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 13px 14px; border-bottom: 1px solid var(--border);
+}
+.msg-req-top { display: flex; align-items: center; gap: 10px; }
+.msg-req-info { flex: 1; min-width: 0; }
+.msg-req-name { font-size: 14px; font-weight: 600; }
+.msg-req-uid { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.msg-req-hidden {
+  font-size: 13px; color: var(--text-muted); font-style: italic;
+  background: var(--bg-tertiary); border-radius: var(--radius-sm);
+  padding: 7px 10px; border-left: 3px solid var(--border);
+}
+.msg-req-actions { display: flex; gap: 7px; }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      height: 100%;
-      font-family: var(--font);
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      overflow: hidden;
-    }
+     height: 100%;
+     height: 100dvh;
+     font-family: var(--font);
+     background: var(--bg-primary);
+     color: var(--text-primary);
+     overflow: hidden;
+   }
     button { cursor: pointer; border: none; background: none; font-family: inherit; }
     input, textarea { font-family: inherit; }
     a { color: inherit; text-decoration: none; }
@@ -54,9 +98,6 @@
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
 
-    /* ============================================================
-       LOADING SCREEN
-    ============================================================ */
     #loading-screen {
       position: fixed; inset: 0; z-index: 9999;
       background: var(--bg-primary);
@@ -74,9 +115,6 @@
     .loader-text { font-size: 13px; color: var(--text-secondary); }
     .loader-version { font-size: 11px; color: var(--text-muted); margin-top: -8px; }
 
-    /* ============================================================
-       AUTH SCREEN
-    ============================================================ */
     #auth-screen {
       position: fixed; inset: 0; z-index: 100;
       display: flex; align-items: center; justify-content: center;
@@ -138,15 +176,9 @@
     }
     .auth-success.show { display: block; }
 
-    /* ============================================================
-       MAIN APP LAYOUT
-    ============================================================ */
-    #app { display: flex; height: 100vh; overflow: hidden; }
+    #app { display: flex; height: 100dvh; overflow: hidden; }
     #app.hidden { display: none; }
 
-    /* ============================================================
-       SIDEBAR
-    ============================================================ */
     #sidebar {
       width: 360px; min-width: 260px; display: flex; flex-direction: column;
       background: var(--bg-secondary); border-right: 1px solid var(--border);
@@ -190,7 +222,6 @@
     }
     .sidebar-list { flex: 1; overflow-y: auto; }
 
-    /* Chat Item */
     .chat-item {
       display: flex; align-items: center; gap: 12px; padding: 10px 14px;
       cursor: pointer; border-bottom: 1px solid transparent;
@@ -199,7 +230,6 @@
     .chat-item:hover { background: var(--bg-hover); }
     .chat-item.active { background: var(--bg-tertiary); }
 
-    /* Avatar */
     .avatar { position: relative; flex-shrink: 0; }
     .avatar img {
       width: 46px; height: 46px; border-radius: 50%; object-fit: cover;
@@ -226,7 +256,6 @@
       border-radius: 99px; padding: 2px 7px; min-width: 20px; text-align: center; flex-shrink: 0;
     }
 
-    /* Friend Request Item */
     .friend-req-item {
       display: flex; align-items: center; gap: 12px; padding: 12px 14px;
       border-bottom: 1px solid var(--border);
@@ -248,7 +277,6 @@
     }
     .btn-decline:hover { background: rgba(248,81,73,.2); color: var(--danger); }
 
-    /* Empty state */
     .empty-state {
       display: flex; flex-direction: column; align-items: center; justify-content: center;
       gap: 12px; padding: 44px 20px; color: var(--text-secondary); text-align: center;
@@ -256,10 +284,7 @@
     .empty-state svg { width: 52px; height: 52px; opacity: .3; }
     .empty-state p { font-size: 14px; line-height: 1.6; }
 
-    /* ============================================================
-       CHAT MAIN AREA
-    ============================================================ */
-    #chat-main { flex: 1; display: flex; flex-direction: column; background: var(--bg-primary); min-width: 0; }
+    #chat-main { flex: 1; display: flex; flex-direction: column; background: var(--bg-primary); min-width: 0; min-height: 0; overflow: hidden; }
 
     #chat-welcome {
       flex: 1; display: flex; flex-direction: column;
@@ -270,10 +295,9 @@
     #chat-welcome p { font-size: 14px; color: var(--text-muted); text-align: center; line-height: 1.7; }
     #chat-welcome.hidden { display: none; }
 
-    #chat-window { flex: 1; display: flex; flex-direction: column; min-height: 0; }
+    #chat-window { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
     #chat-window.hidden { display: none; }
 
-    /* Chat Header */
     .chat-header {
       display: flex; align-items: center; gap: 12px; padding: 10px 16px;
       border-bottom: 1px solid var(--border); background: var(--bg-secondary); flex-shrink: 0;
@@ -285,10 +309,10 @@
     .chat-header-status { font-size: 12px; color: var(--text-secondary); margin-top: 1px; }
     .chat-header-status.online { color: var(--accent); }
 
-    /* Messages */
     #messages-area {
-      flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px;
-      background: radial-gradient(ellipse at 80% 10%, rgba(37, 147, 211, 0.025) 0%, transparent 50%), var(--bg-primary);
+   flex: 1; overflow-y: auto; padding: 14px 16px; display: flex; flex-direction: column; gap: 2px;
+   overscroll-behavior: contain;
+   background: radial-gradient(ellipse at 80% 10%, rgba(37, 147, 211, 0.025) 0%, transparent 50%), var(--bg-primary);
     }
     .msg-date-sep { text-align: center; margin: 12px 0; font-size: 12px; color: var(--text-muted); }
     .msg-date-sep span {
@@ -321,7 +345,6 @@
     .msg-edited { font-size: 10px; color: rgba(255,255,255,.3); font-style: italic; }
     .msg-starred-icon { font-size: 10px; }
 
-    /* Typing indicator */
     .typing-indicator {
       min-height: 28px; padding: 0 16px 6px;
       display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-secondary);
@@ -338,11 +361,11 @@
       30% { transform: translateY(-5px); opacity:1; }
     }
 
-    /* Input Bar */
     .chat-input-bar {
-      padding: 10px 14px; border-top: 1px solid var(--border);
-      background: var(--bg-secondary); display: flex; flex-direction: column; gap: 7px;
-      flex-shrink: 0; position: relative;
+    padding: 10px 14px; border-top: 1px solid var(--border);
+    padding-bottom: max(10px, env(safe-area-inset-bottom));
+    background: var(--bg-secondary); display: flex; flex-direction: column; gap: 7px;
+    flex-shrink: 0; position: relative;
     }
     .reply-bar {
       display: none; align-items: center; gap: 8px; background: var(--bg-input);
@@ -377,7 +400,6 @@
     .send-btn:active { transform: scale(.9); }
     .send-btn svg { width: 18px; height: 18px; color: #000; }
 
-    /* Emoji Picker */
     .emoji-picker-wrap {
       position: absolute; bottom: 62px; left: 14px; z-index: 200;
       background: var(--bg-secondary); border: 1px solid var(--border);
@@ -399,7 +421,6 @@
     }
     .emoji-cell:hover { background: var(--bg-hover); }
 
-    /* Context Menu */
     .ctx-menu {
       position: fixed; z-index: 300; background: var(--bg-secondary);
       border: 1px solid var(--border); border-radius: var(--radius-md);
@@ -416,9 +437,6 @@
     .ctx-item svg { width: 15px; height: 15px; flex-shrink: 0; }
     .ctx-sep { height: 1px; background: var(--border); margin: 4px 0; }
 
-    /* ============================================================
-       MODALS
-    ============================================================ */
     .modal-overlay {
       position: fixed; inset: 0; z-index: 500;
       background: rgba(0,0,0,.7); display: none;
@@ -445,7 +463,6 @@
     .modal-close svg { width: 16px; height: 16px; }
     .modal-body { display: flex; flex-direction: column; gap: 14px; }
 
-    /* Profile Modal */
     .profile-avatar-wrap { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-bottom: 4px; }
     .profile-avatar-edit { position: relative; cursor: pointer; }
     .profile-avatar-edit img,
@@ -477,7 +494,6 @@
     }
     .btn-danger:hover { background: rgba(248,81,73,.22); }
 
-    /* Search result card */
     .search-result-card {
       display: flex; align-items: center; gap: 13px; padding: 14px;
       background: var(--bg-tertiary); border-radius: var(--radius-md); border: 1px solid var(--border);
@@ -491,7 +507,6 @@
     .search-result-status { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
     .search-result-status.online { color: var(--accent); }
 
-    /* Starred messages */
     .starred-list { display: flex; flex-direction: column; gap: 9px; max-height: 340px; overflow-y: auto; }
     .starred-msg-item {
       background: var(--bg-tertiary); border-radius: var(--radius-md); padding: 11px 13px;
@@ -499,7 +514,6 @@
     }
     .starred-msg-meta { font-size: 11px; color: var(--text-muted); margin-top: 5px; }
 
-    /* Forward */
     .fwd-friend-item {
       display: flex; align-items: center; gap: 10px; padding: 8px;
       cursor: pointer; border-radius: var(--radius-sm); transition: background var(--trans);
@@ -507,7 +521,6 @@
     .fwd-friend-item:hover { background: var(--bg-hover); }
     .fwd-friend-item input[type="checkbox"] { accent-color: var(--accent); width: 16px; height: 16px; cursor: pointer; }
 
-    /* Toast */
     #toast-container {
       position: fixed; bottom: 24px; right: 24px; z-index: 9998;
       display: flex; flex-direction: column; gap: 8px; pointer-events: none;
@@ -525,9 +538,6 @@
     @keyframes toastIn { from { transform:translateX(22px); opacity:0; } to { transform:none; opacity:1; } }
     @keyframes toastOut { from { opacity:1; } to { opacity:0; transform:translateX(10px); } }
 
-    /* ============================================================
-       RESPONSIVE / MOBILE
-    ============================================================ */
     @media (max-width: 768px) {
       #sidebar {
         width: 100%; position: absolute; z-index: 10;
@@ -540,7 +550,6 @@
     .back-btn { display: none; }
     @media (min-width: 769px) { .back-btn { display: none !important; } }
 
-    /* Misc helpers */
     .hidden { display: none !important; }
     .fw { width: 100%; }
     .mt8 { margin-top: 8px; }
@@ -555,9 +564,34 @@
 </head>
 <body>
 
-<!-- ============================================================
-     LOADING SCREEN
-============================================================ -->
+<!-- Send First Message Modal -->
+<div class="modal-overlay" id="firstmsg-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Kirim Pesan ke <span id="firstmsg-target-name"></span></h3>
+      <button class="modal-close" onclick="closeModal('firstmsg-modal')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--text-secondary);">
+        Pesan ini akan dikirim sebagai permintaan. Isi pesan hanya terlihat setelah diterima.
+      </p>
+      <textarea id="firstmsg-input"
+        style="width:100%;min-height:90px;background:var(--bg-input);border:1px solid var(--border);
+        border-radius:var(--radius-md);padding:11px 13px;color:var(--text-primary);
+        font-size:14px;outline:none;resize:vertical;font-family:var(--font);line-height:1.5;margin-top:4px;"
+        placeholder="Tulis pesan pertamamu…" maxlength="300"></textarea>
+      <div style="font-size:11px;color:var(--text-muted);text-align:right;margin-top:-8px;">
+        Maks. 300 karakter
+      </div>
+      <button class="btn-primary" onclick="sendFirstMessage()">Kirim Permintaan</button>
+    </div>
+  </div>
+</div>
+
 <div id="loading-screen">
   <div class="loader-logo">
     <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -572,9 +606,6 @@
   <div class="loader-version">v2.0</div>
 </div>
 
-<!-- ============================================================
-     AUTH SCREEN
-============================================================ -->
 <div id="auth-screen" class="hidden">
   <div class="auth-card">
     <div class="auth-logo">
@@ -589,8 +620,6 @@
       <div class="auth-tab active" id="tab-login" onclick="switchTab('login')">Masuk</div>
       <div class="auth-tab" id="tab-register" onclick="switchTab('register')">Daftar</div>
     </div>
-
-    <!-- Login Form -->
     <div class="auth-form" id="login-form">
       <div class="field-group">
         <label>Username</label>
@@ -603,8 +632,6 @@
       <div class="auth-error" id="login-error"></div>
       <button class="btn-primary" id="login-btn" onclick="doLogin()">Masuk</button>
     </div>
-
-    <!-- Register Form -->
     <div class="auth-form hidden" id="register-form">
       <div class="field-group">
         <label>Username</label>
@@ -621,12 +648,7 @@
   </div>
 </div>
 
-<!-- ============================================================
-     MAIN APP
-============================================================ -->
 <div id="app" class="hidden">
-
-  <!-- SIDEBAR -->
   <div id="sidebar">
     <div class="sidebar-header">
       <button class="icon-btn" id="my-avatar-btn" onclick="openProfile()" title="Profil Saya">
@@ -649,7 +671,6 @@
         </svg>
       </button>
     </div>
-
     <div class="sidebar-search">
       <div class="search-box">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -659,16 +680,19 @@
         <input type="text" id="chat-search" placeholder="Cari chat atau teman…" oninput="filterChats(this.value)"/>
       </div>
     </div>
-
     <div class="sidebar-tabs">
       <div class="stab active" id="stab-chats" onclick="switchSideTab('chats')">Chat</div>
       <div class="stab" id="stab-friends" onclick="switchSideTab('friends')">Teman</div>
-      <div class="stab" id="stab-requests" onclick="switchSideTab('requests')">
-        Permintaan
-        <span class="badge hidden" id="req-badge">0</span>
-      </div>
+     <div class="stab" id="stab-requests" onclick="switchSideTab('requests')">
+  Permintaan
+  <span class="badge hidden" id="req-badge">0</span>
+</div>
+<div class="stab" id="stab-explore" onclick="switchSideTab('explore')">Explore</div>
+<div class="stab" id="stab-msgreq" onclick="switchSideTab('msgreq')">
+  Pesan Masuk
+  <span class="badge hidden" id="msgreq-badge">0</span>
+</div>
     </div>
-
     <div class="sidebar-list" id="sidebar-list">
       <div class="empty-state" id="initial-empty">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -679,9 +703,7 @@
     </div>
   </div>
 
-  <!-- CHAT MAIN -->
   <div id="chat-main">
-    <!-- Welcome state -->
     <div id="chat-welcome">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
         <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
@@ -689,8 +711,6 @@
       <h3>Selamat datang di ChatApp</h3>
       <p>Pilih percakapan dari daftar kiri<br/>atau tambah teman baru untuk mulai.</p>
     </div>
-
-    <!-- Active chat window -->
     <div id="chat-window" class="hidden">
       <div class="chat-header">
         <button class="icon-btn back-btn" onclick="backToSidebar()" title="Kembali">
@@ -709,12 +729,9 @@
           </svg>
         </button>
       </div>
-
       <div id="messages-area"></div>
       <div class="typing-indicator" id="typing-indicator"></div>
-
       <div class="chat-input-bar">
-        <!-- Reply Preview Bar -->
         <div class="reply-bar" id="reply-bar">
           <div class="reply-bar-content">
             <div class="reply-bar-name" id="reply-bar-name"></div>
@@ -726,7 +743,6 @@
             </svg>
           </button>
         </div>
-        <!-- Input Row -->
         <div class="input-row">
           <button class="emoji-btn" onclick="toggleEmoji()" title="Emoji">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -745,7 +761,6 @@
             </svg>
           </button>
         </div>
-        <!-- Emoji Picker -->
         <div class="emoji-picker-wrap" id="emoji-picker">
           <input class="emoji-search" type="text" placeholder="Cari emoji…" oninput="filterEmoji(this.value)"/>
           <div class="emoji-grid" id="emoji-grid"></div>
@@ -755,9 +770,6 @@
   </div>
 </div>
 
-<!-- ============================================================
-     CONTEXT MENU
-============================================================ -->
 <div class="ctx-menu" id="ctx-menu">
   <div class="ctx-item" onclick="ctxReply()">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -798,10 +810,6 @@
     </svg> Hapus Pesan
   </div>
 </div>
-
-<!-- ============================================================
-     MODALS
-============================================================ -->
 
 <!-- Profile Modal -->
 <div class="modal-overlay" id="profile-modal">
@@ -940,16 +948,9 @@
   </div>
 </div>
 
-<!-- Toast Container -->
 <div id="toast-container"></div>
 
-<!-- ============================================================
-     FIREBASE + APP SCRIPT (obfuscated config)
-============================================================ -->
 <script type="module">
-// ================================================================
-// FIREBASE INIT – config diobfuskasi agar tidak mudah terbaca
-// ================================================================
 import { initializeApp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import {
@@ -961,11 +962,12 @@ import {
   onValue, onChildAdded, onChildChanged, off, serverTimestamp,
   runTransaction, query, orderByChild, limitToLast
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
-import {
-  getStorage, ref as sRef, uploadBytes, getDownloadURL
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
 
-/* --- Config dienkode untuk mencegah scraping langsung --- */
+// ================================================================
+// GANTI URL INI SETIAP KALI CLOUDFLARE RESTART
+// ================================================================
+const STORAGE_SERVER = 'https://thou-dem-escape-elected.trycloudflare.com';
+
 const firebaseConfig = {
   apiKey:            "AIzaSyAM4EXNwCQxVUhk2azPLHfjSaTRxTaJPAM",
   authDomain:        "ibt-chat-b7c95.firebaseapp.com",
@@ -976,36 +978,29 @@ const firebaseConfig = {
   appId:             "1:699381983573:web:a4972867c7a4fab25827dc"
 };
 
-const fbApp   = initializeApp(firebaseConfig);
-const auth    = getAuth(fbApp);
-const db      = getDatabase(fbApp);
-const storage = getStorage(fbApp);
+const fbApp = initializeApp(firebaseConfig);
+const auth  = getAuth(fbApp);
+const db    = getDatabase(fbApp);
 
-// ================================================================
-// APPLICATION STATE
-// ================================================================
-let currentUser   = null;   // Firebase Auth user object
-let myProfile     = null;   // Our own DB profile
-let activeChatUid = null;   // Friend UID we are chatting with
-let activeChatRoom= null;   // Combined room ID
-let ctxMsgId      = null;   // Message ID in context menu
-let ctxMsgData    = null;   // Message data in context menu
-let replyTo       = null;   // Current reply context { id, text, senderName }
-let editMsgId     = null;   // Message ID being edited
-let friendsList   = {};     // { uid: profileObject }
-let typingTimer   = null;   // Debounce timer for typing status
-let unsubChat     = null;   // Unsubscribe function for chat listener
+let currentUser   = null;
+let myProfile     = null;
+let activeChatUid = null;
+let activeChatRoom= null;
+let ctxMsgId      = null;
+let ctxMsgData    = null;
+let replyTo       = null;
+let editMsgId     = null;
+let friendsList   = {};
+let typingTimer   = null;
+let unsubChat     = null;
 let unsubChatChanged = null;
-let unsubTyping   = null;   // Unsubscribe function for typing listener
-let unsubPresence = null;   // Unsubscribe function for friend presence
-let sideTab       = 'chats';// Active sidebar tab
-let allEmojis     = [];     // All emoji list for picker
-let notifInit     = false;  // Notification listener initialized flag
-let lastMsgDates  = {};     // Track date separators per room
+let unsubTyping   = null;
+let unsubPresence = null;
+let sideTab       = 'chats';
+let allEmojis     = [];
+let notifInit     = false;
+let lastMsgDates  = {};
 
-// ================================================================
-// EMOJI LIST
-// ================================================================
 allEmojis = ['😀','😁','😂','🤣','😃','😄','😅','😆','😊','😋','😎','😍','🥰','😘',
   '😗','😙','😚','🙂','🤗','🤩','🤔','🤨','😐','😑','😶','🙄','😏','😣','😥','😮',
   '🤐','😯','😪','😫','🥱','😴','😌','😛','😜','😝','🤤','😒','😓','😔','😕','🙃',
@@ -1017,42 +1012,25 @@ allEmojis = ['😀','😁','😂','🤣','😃','😄','😅','😆','😊','�
   '🎀','🏆','🥇','🎯','🚀','💡','🌈','🦋','🐶','🐱','🐼','🐸','🦊','🍕','🍔','🍣',
   '☕','🧋','🎵','🎮','⚽','🏀','🎸','📱','💻','🔑','💎','🌙','☀️','🌊','🌸'];
 
-// ================================================================
-// UTILITY FUNCTIONS
-// ================================================================
-
-/** Sanitize HTML to prevent XSS */
 function sanitize(str) {
   if (!str) return '';
   return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#39;');
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-
-/** Format timestamp to HH:MM */
 function fmtTime(ts) {
   if (!ts) return '';
   return new Date(ts).toLocaleTimeString('id-ID', { hour:'2-digit', minute:'2-digit' });
 }
-
-/** Format timestamp to readable date */
 function fmtDate(ts) {
   if (!ts) return '';
-  const d   = new Date(ts);
-  const now = new Date();
+  const d = new Date(ts), now = new Date();
   const yes = new Date(now); yes.setDate(yes.getDate()-1);
   if (d.toDateString() === now.toDateString()) return 'Hari ini';
   if (d.toDateString() === yes.toDateString()) return 'Kemarin';
   return d.toLocaleDateString('id-ID', { day:'numeric', month:'long', year:'numeric' });
 }
-
-/** Generate deterministic room ID from two UIDs */
 function roomId(uid1, uid2) { return [uid1, uid2].sort().join('_'); }
-
-/** Render avatar HTML */
 function avatarHTML(url, name, size=46) {
   const letter = name ? name[0].toUpperCase() : '?';
   if (url) {
@@ -1061,8 +1039,6 @@ function avatarHTML(url, name, size=46) {
   }
   return `<div class="avatar-placeholder" style="width:${size}px;height:${size}px;font-size:${Math.round(size*.38)}px;">${letter}</div>`;
 }
-
-/** Show toast notification */
 function showToast(msg, type='success', dur=3000) {
   const icons = { success:'✓', error:'✕', info:'ℹ' };
   const t = document.createElement('div');
@@ -1071,12 +1047,8 @@ function showToast(msg, type='success', dur=3000) {
   document.getElementById('toast-container').appendChild(t);
   setTimeout(() => { t.style.animation='toastOut .3s ease forwards'; setTimeout(()=>t.remove(), 300); }, dur);
 }
-
-/** Open/close modal helpers */
 window.openModal  = id => document.getElementById(id).classList.add('show');
 window.closeModal = id => document.getElementById(id).classList.remove('show');
-
-/** Set button loading state */
 function setLoading(btnId, loading, text='') {
   const btn = document.getElementById(btnId);
   if (!btn) return;
@@ -1085,9 +1057,6 @@ function setLoading(btnId, loading, text='') {
   else if (text) btn.textContent = text;
 }
 
-// ================================================================
-// AUTH TAB SWITCH
-// ================================================================
 window.switchTab = function(tab) {
   document.getElementById('tab-login').classList.toggle('active', tab==='login');
   document.getElementById('tab-register').classList.toggle('active', tab==='register');
@@ -1098,150 +1067,84 @@ window.switchTab = function(tab) {
   document.getElementById('reg-success').classList.remove('show');
 };
 
-// ================================================================
-// REGISTER
-// ================================================================
 window.doRegister = async function() {
   const username = document.getElementById('reg-username').value.trim().toLowerCase();
   const password = document.getElementById('reg-password').value;
-  const errEl    = document.getElementById('reg-error');
-  const sucEl    = document.getElementById('reg-success');
-  errEl.classList.remove('show');
-  sucEl.classList.remove('show');
-
-  // Validasi input
-  if (!username || username.length < 3) {
-    return showErr(errEl, 'Username minimal 3 karakter.');
-  }
-  if (username.length > 20) {
-    return showErr(errEl, 'Username maksimal 20 karakter.');
-  }
-  if (!/^[a-z0-9_]+$/.test(username)) {
-    return showErr(errEl, 'Username hanya boleh huruf kecil, angka, dan underscore (_).');
-  }
-  if (password.length < 6) {
-    return showErr(errEl, 'Password minimal 6 karakter.');
-  }
-
+  const errEl = document.getElementById('reg-error');
+  const sucEl = document.getElementById('reg-success');
+  errEl.classList.remove('show'); sucEl.classList.remove('show');
+  if (!username || username.length < 3) return showErr(errEl, 'Username minimal 3 karakter.');
+  if (username.length > 20) return showErr(errEl, 'Username maksimal 20 karakter.');
+  if (!/^[a-z0-9_]+$/.test(username)) return showErr(errEl, 'Username hanya boleh huruf kecil, angka, dan underscore (_).');
+  if (password.length < 6) return showErr(errEl, 'Password minimal 6 karakter.');
   setLoading('register-btn', true);
   try {
-    // Cek keunikan username di DB
     const usnSnap = await get(ref(db, `usernames/${username}`));
-    if (usnSnap.exists()) {
-      setLoading('register-btn', false, 'Buat Akun');
-      return showErr(errEl, 'Username sudah digunakan. Pilih yang lain.');
-    }
-
-    // Buat akun Firebase Auth dengan email virtual
+    if (usnSnap.exists()) { setLoading('register-btn', false, 'Buat Akun'); return showErr(errEl, 'Username sudah digunakan.'); }
     const email = `${username}@chatapp.internal`;
     const cred  = await createUserWithEmailAndPassword(auth, email, password);
     const uid   = cred.user.uid;
-
-    // Generate User ID berurutan dengan transaction
     let userId = '00000001';
     await runTransaction(ref(db, 'system/lastUserId'), current => {
       const next = (current || 0) + 1;
       userId = String(next).padStart(8, '0');
       return next;
     });
-
-    // Simpan profil user ke DB
-    const now     = Date.now();
-    const profile = {
-      username, userId, avatar: '', bio: '',
-      online: true, lastSeen: now, createdAt: now, uid
-    };
+    const now = Date.now();
+    const profile = { username, userId, avatar: '', bio: '', online: true, lastSeen: now, createdAt: now, uid };
     await set(ref(db, `users/${uid}`), profile);
-
-    // Simpan index username → uid dan userId → uid
     await set(ref(db, `usernames/${username}`), uid);
     await set(ref(db, `userIds/${userId}`), uid);
-
     sucEl.textContent = 'Akun berhasil dibuat! Sedang masuk…';
     sucEl.classList.add('show');
     showToast('Akun berhasil dibuat!');
-    // Auth state change akan otomatis masuk ke app
   } catch(e) {
     setLoading('register-btn', false, 'Buat Akun');
     showErr(errEl, friendlyFirebaseError(e));
   }
 };
 
-// ================================================================
-// LOGIN
-// ================================================================
 window.doLogin = async function() {
   const username = document.getElementById('login-username').value.trim().toLowerCase();
   const password = document.getElementById('login-password').value;
-  const errEl    = document.getElementById('login-error');
+  const errEl = document.getElementById('login-error');
   errEl.classList.remove('show');
-
   if (!username) return showErr(errEl, 'Masukkan username.');
   if (!password) return showErr(errEl, 'Masukkan password.');
-
   setLoading('login-btn', true);
   try {
-    // Cari uid dari username
     const usnSnap = await get(ref(db, `usernames/${username}`));
-    if (!usnSnap.exists()) {
-      setLoading('login-btn', false, 'Masuk');
-      return showErr(errEl, 'Username tidak ditemukan. Periksa kembali.');
-    }
-    const email = `${username}@chatapp.internal`;
-    await signInWithEmailAndPassword(auth, email, password);
-    // Auth state change akan handle transisi ke app
+    if (!usnSnap.exists()) { setLoading('login-btn', false, 'Masuk'); return showErr(errEl, 'Username tidak ditemukan.'); }
+    await signInWithEmailAndPassword(auth, `${username}@chatapp.internal`, password);
   } catch(e) {
     setLoading('login-btn', false, 'Masuk');
     showErr(errEl, friendlyFirebaseError(e));
   }
 };
 
-function showErr(el, msg) {
-  el.textContent = msg;
-  el.classList.add('show');
-}
-
+function showErr(el, msg) { el.textContent = msg; el.classList.add('show'); }
 function friendlyFirebaseError(e) {
   const code = e.code || '';
-  if (code.includes('wrong-password') || code.includes('invalid-credential') || code.includes('invalid-email'))
-    return 'Username atau password salah. Coba lagi.';
-  if (code.includes('too-many-requests'))
-    return 'Terlalu banyak percobaan. Tunggu beberapa menit.';
-  if (code.includes('network-request-failed'))
-    return 'Tidak ada koneksi internet.';
-  if (code.includes('email-already-in-use'))
-    return 'Akun sudah ada. Coba masuk.';
-  if (code.includes('weak-password'))
-    return 'Password terlalu lemah. Gunakan minimal 6 karakter.';
-  return e.message || 'Terjadi kesalahan. Coba lagi.';
+  if (code.includes('wrong-password') || code.includes('invalid-credential') || code.includes('invalid-email')) return 'Username atau password salah.';
+  if (code.includes('too-many-requests')) return 'Terlalu banyak percobaan. Tunggu beberapa menit.';
+  if (code.includes('network-request-failed')) return 'Tidak ada koneksi internet.';
+  if (code.includes('email-already-in-use')) return 'Akun sudah ada. Coba masuk.';
+  if (code.includes('weak-password')) return 'Password terlalu lemah.';
+  return e.message || 'Terjadi kesalahan.';
 }
 
-// ================================================================
-// LOGOUT
-// ================================================================
 window.doLogout = async function() {
   if (currentUser) {
-    try {
-      await update(ref(db, `users/${currentUser.uid}`), { online: false, lastSeen: Date.now() });
-    } catch(e) {}
+    try { await update(ref(db, `users/${currentUser.uid}`), { online: false, lastSeen: Date.now() }); } catch(e) {}
   }
   cleanupListeners();
   await signOut(auth);
   closeModal('profile-modal');
-  activeChatUid  = null;
-  activeChatRoom = null;
-  friendsList    = {};
+  activeChatUid = null; activeChatRoom = null; friendsList = {};
 };
 
-// ================================================================
-// AUTH STATE CHANGE HANDLER
-// ================================================================
 onAuthStateChanged(auth, async user => {
-  // Sembunyikan loading screen
-  setTimeout(() => {
-    document.getElementById('loading-screen').classList.add('hidden');
-  }, 800);
-
+  setTimeout(() => { document.getElementById('loading-screen').classList.add('hidden'); }, 800);
   if (user) {
     currentUser = user;
     document.getElementById('auth-screen').classList.add('hidden');
@@ -1250,8 +1153,7 @@ onAuthStateChanged(auth, async user => {
     document.getElementById('chat-window').classList.add('hidden');
     await initUserSession();
   } else {
-    currentUser = null;
-    myProfile   = null;
+    currentUser = null; myProfile = null;
     document.getElementById('auth-screen').classList.remove('hidden');
     document.getElementById('app').classList.add('hidden');
     setLoading('login-btn', false, 'Masuk');
@@ -1259,9 +1161,6 @@ onAuthStateChanged(auth, async user => {
   }
 });
 
-// ================================================================
-// INIT USER SESSION
-// ================================================================
 async function initUserSession() {
   try {
     await loadMyProfile();
@@ -1270,14 +1169,12 @@ async function initUserSession() {
     loadFriendRequestsListener();
     startPresenceLoop();
     watchNotifications();
+    loadMsgRequestsListener();
     requestNotificationPermission();
     window.addEventListener('beforeunload', handleBeforeUnload);
-  } catch(e) {
-    console.error('Init error:', e);
-  }
+  } catch(e) { console.error('Init error:', e); }
 }
 
-/** Load own profile from DB */
 async function loadMyProfile() {
   const snap = await get(ref(db, `users/${currentUser.uid}`));
   if (snap.exists()) {
@@ -1286,19 +1183,13 @@ async function loadMyProfile() {
     renderSidebarAvatar();
   }
 }
-
 function renderSidebarAvatar() {
   if (!myProfile) return;
-  const el = document.getElementById('sidebar-my-avatar');
-  el.innerHTML = avatarHTML(myProfile.avatar, myProfile.username, 28);
+  document.getElementById('sidebar-my-avatar').innerHTML = avatarHTML(myProfile.avatar, myProfile.username, 28);
 }
-
 function handleBeforeUnload() {
-  if (currentUser) {
-    update(ref(db, `users/${currentUser.uid}`), { online: false, lastSeen: Date.now() });
-  }
+  if (currentUser) update(ref(db, `users/${currentUser.uid}`), { online: false, lastSeen: Date.now() });
 }
-
 function cleanupListeners() {
   if (unsubChat)        { unsubChat(); unsubChat = null; }
   if (unsubChatChanged) { unsubChatChanged(); unsubChatChanged = null; }
@@ -1306,41 +1197,22 @@ function cleanupListeners() {
   if (unsubPresence)    { unsubPresence(); unsubPresence = null; }
 }
 
-// ================================================================
-// FRIENDS LISTENER
-// ================================================================
 function loadFriendsListener() {
   onValue(ref(db, `friends/${currentUser.uid}`), async snap => {
-    const oldKeys = Object.keys(friendsList);
-    friendsList   = {};
-    const val     = snap.val() || {};
-    const newKeys = Object.keys(val);
-
-    // Load each friend's profile
-    for (const uid of newKeys) {
-      try {
-        const s = await get(ref(db, `users/${uid}`));
-        if (s.exists()) friendsList[uid] = s.val();
-      } catch(e) {}
+    friendsList = {};
+    const val = snap.val() || {};
+    for (const uid of Object.keys(val)) {
+      try { const s = await get(ref(db, `users/${uid}`)); if (s.exists()) friendsList[uid] = s.val(); } catch(e) {}
     }
-
-    // Re-render current tab
-    if (sideTab === 'chats')        renderChatList();
+    if (sideTab === 'chats') renderChatList();
     else if (sideTab === 'friends') renderFriendsList();
-
-    // Update active chat header if friend data changed
-    if (activeChatUid && friendsList[activeChatUid]) {
-      updateChatHeader(friendsList[activeChatUid]);
-    }
+    if (activeChatUid && friendsList[activeChatUid]) updateChatHeader(friendsList[activeChatUid]);
   });
 }
 
-// ================================================================
-// FRIEND REQUESTS LISTENER
-// ================================================================
 function loadFriendRequestsListener() {
   onValue(ref(db, `friendRequests/${currentUser.uid}`), snap => {
-    const val   = snap.val() || {};
+    const val = snap.val() || {};
     const count = Object.keys(val).length;
     const badge = document.getElementById('req-badge');
     badge.textContent = count;
@@ -1349,308 +1221,162 @@ function loadFriendRequestsListener() {
   });
 }
 
-// ================================================================
-// SIDEBAR TAB SWITCH
-// ================================================================
 window.switchSideTab = function(tab) {
   sideTab = tab;
-  ['chats','friends','requests'].forEach(t => {
-    document.getElementById(`stab-${t}`).classList.toggle('active', t === tab);
-  });
-  if (tab === 'chats')          renderChatList();
-  else if (tab === 'friends')   renderFriendsList();
-  else                          loadAndRenderRequests();
+  ['chats','friends','requests'].forEach(t => document.getElementById(`stab-${t}`).classList.toggle('active', t === tab));
+  if (tab === 'chats') renderChatList();
+  else if (tab === 'friends') renderFriendsList();
+  else loadAndRenderRequests();
 };
-
 async function loadAndRenderRequests() {
   const snap = await get(ref(db, `friendRequests/${currentUser.uid}`));
   renderRequestsList(snap.val() || {});
 }
 
-// ================================================================
-// RENDER FRIEND REQUESTS
-// ================================================================
 function renderRequestsList(val) {
-  const list    = document.getElementById('sidebar-list');
+  const list = document.getElementById('sidebar-list');
   const entries = Object.entries(val);
-
   if (!entries.length) {
-    list.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
-        <circle cx="9" cy="7" r="4"/>
-        <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-        <path d="M16 3.13a4 4 0 010 7.75"/>
-      </svg>
-      <p>Tidak ada permintaan<br/>pertemanan masuk.</p>
-    </div>`;
+    list.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg><p>Tidak ada permintaan<br/>pertemanan masuk.</p></div>`;
     return;
   }
-
   list.innerHTML = '';
   entries.forEach(([uid, data]) => {
     const item = document.createElement('div');
     item.className = 'friend-req-item';
-    item.innerHTML = `
-      <div class="avatar">${avatarHTML(data.avatar||'', data.username||'?', 42)}</div>
-      <div class="req-info">
-        <div class="req-name">${sanitize(data.username)}</div>
-        <div class="req-uid">ID: ${sanitize(data.userId||'')}</div>
-      </div>
-      <div class="req-actions">
-        <button class="btn-accept">Terima</button>
-        <button class="btn-decline">Tolak</button>
-      </div>`;
+    item.innerHTML = `<div class="avatar">${avatarHTML(data.avatar||'', data.username||'?', 42)}</div><div class="req-info"><div class="req-name">${sanitize(data.username)}</div><div class="req-uid">ID: ${sanitize(data.userId||'')}</div></div><div class="req-actions"><button class="btn-accept">Terima</button><button class="btn-decline">Tolak</button></div>`;
     item.querySelector('.btn-accept').onclick  = () => acceptFriendRequest(uid, data);
     item.querySelector('.btn-decline').onclick = () => declineFriendRequest(uid);
     list.appendChild(item);
   });
 }
 
-/** Accept friend request */
 async function acceptFriendRequest(uid, data) {
   try {
-    // Add both ways to friends list
     await update(ref(db, `friends/${currentUser.uid}`), { [uid]: true });
     await update(ref(db, `friends/${uid}`), { [currentUser.uid]: true });
-    // Remove request
     await remove(ref(db, `friendRequests/${currentUser.uid}/${uid}`));
-    // Notify requester
-    const mySnap = await get(ref(db, `users/${currentUser.uid}`));
-    const me     = mySnap.val();
-    await push(ref(db, `notifications/${uid}`), {
-      type: 'friend_accepted', fromUid: currentUser.uid,
-      fromUsername: me.username, timestamp: Date.now()
-    });
+    const me = (await get(ref(db, `users/${currentUser.uid}`))).val();
+    await push(ref(db, `notifications/${uid}`), { type: 'friend_accepted', fromUid: currentUser.uid, fromUsername: me.username, timestamp: Date.now() });
     showToast(`Kamu sekarang berteman dengan ${data.username}!`);
-  } catch(e) {
-    showToast('Gagal menerima permintaan: ' + e.message, 'error');
-  }
+  } catch(e) { showToast('Gagal menerima permintaan: ' + e.message, 'error'); }
 }
-
-/** Decline friend request */
 async function declineFriendRequest(uid) {
-  try {
-    await remove(ref(db, `friendRequests/${currentUser.uid}/${uid}`));
-    showToast('Permintaan pertemanan ditolak.', 'info');
-  } catch(e) {
-    showToast('Gagal menolak: ' + e.message, 'error');
-  }
+  try { await remove(ref(db, `friendRequests/${currentUser.uid}/${uid}`)); showToast('Permintaan ditolak.', 'info'); }
+  catch(e) { showToast('Gagal menolak: ' + e.message, 'error'); }
 }
 
-// ================================================================
-// RENDER FRIENDS LIST (tab Teman)
-// ================================================================
 function renderFriendsList() {
-  const list    = document.getElementById('sidebar-list');
+  const list = document.getElementById('sidebar-list');
   const entries = Object.entries(friendsList);
-
   if (!entries.length) {
-    list.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
-      </svg>
-      <p>Belum ada teman.<br/>Klik ikon + untuk menambah.</p>
-    </div>`;
+    list.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><p>Belum ada teman.<br/>Klik ikon + untuk menambah.</p></div>`;
     return;
   }
-
   list.innerHTML = '';
   entries.forEach(([uid, p]) => {
     const item = document.createElement('div');
     item.className = 'chat-item';
-    item.innerHTML = `
-      <div class="avatar">
-        ${avatarHTML(p.avatar||'', p.username||'?', 46)}
-        <div class="online-dot ${p.online ? '' : 'offline'}"></div>
-      </div>
-      <div class="chat-info">
-        <div class="chat-info-top">
-          <div class="chat-name">${sanitize(p.username)}</div>
-          <div class="chat-time" style="font-size:11px;color:${p.online?'var(--accent)':'var(--text-muted)'};">${p.online?'Online':''}</div>
-        </div>
-        <div class="chat-preview">${sanitize(p.bio)||'Belum ada bio'}</div>
-      </div>`;
+    item.innerHTML = `<div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 46)}<div class="online-dot ${p.online ? '' : 'offline'}"></div></div><div class="chat-info"><div class="chat-info-top"><div class="chat-name">${sanitize(p.username)}</div><div class="chat-time" style="font-size:11px;color:${p.online?'var(--accent)':'var(--text-muted)'};">${p.online?'Online':''}</div></div><div class="chat-preview">${sanitize(p.bio)||'Belum ada bio'}</div></div>`;
     item.onclick = () => openChat(uid);
     list.appendChild(item);
   });
 }
 
-// ================================================================
-// RENDER CHAT LIST (tab Chat)
-// ================================================================
 async function renderChatList(filter='') {
-  const list    = document.getElementById('sidebar-list');
+  const list = document.getElementById('sidebar-list');
   const entries = Object.entries(friendsList);
-
   if (!entries.length) {
-    list.innerHTML = `<div class="empty-state">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
-      </svg>
-      <p>Belum ada teman.<br/>Tambah teman untuk mulai chat.</p>
-    </div>`;
+    list.innerHTML = `<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg><p>Belum ada teman.<br/>Tambah teman untuk mulai chat.</p></div>`;
     return;
   }
-
-  // Gather last message info for each friend
   const chatItems = [];
   for (const [uid, p] of entries) {
     if (filter && !p.username.toLowerCase().includes(filter.toLowerCase())) continue;
-    const rid     = roomId(currentUser.uid, uid);
-    let lastMsg   = '';
-    let lastTime  = 0;
-    let unread    = 0;
+    const rid = roomId(currentUser.uid, uid);
+    let lastMsg = '', lastTime = 0, unread = 0;
     try {
-      const msgSnap = await get(ref(db, `chats/${rid}`));
-      const msgs    = msgSnap.val() || {};
-      const arr     = Object.values(msgs).filter(m=>m && m.timestamp).sort((a,b)=>a.timestamp-b.timestamp);
-      if (arr.length) {
-        const last = arr[arr.length-1];
-        lastMsg  = last.deleted ? '🗑 Pesan dihapus' : (last.text || '');
-        lastTime = last.timestamp;
-      }
+      const msgs = (await get(ref(db, `chats/${rid}`))).val() || {};
+      const arr = Object.values(msgs).filter(m=>m && m.timestamp).sort((a,b)=>a.timestamp-b.timestamp);
+      if (arr.length) { const last = arr[arr.length-1]; lastMsg = last.deleted ? '🗑 Pesan dihapus' : (last.text || ''); lastTime = last.timestamp; }
       unread = Object.values(msgs).filter(m => m && m.senderUid !== currentUser.uid && !m.read).length;
     } catch(e) {}
     chatItems.push({ uid, p, lastMsg, lastTime, unread });
   }
-
-  // Sort by last message time (newest first)
   chatItems.sort((a,b) => b.lastTime - a.lastTime);
-
-  if (!chatItems.length) {
-    list.innerHTML = `<div class="empty-state"><p>Tidak ada hasil pencarian.</p></div>`;
-    return;
-  }
-
+  if (!chatItems.length) { list.innerHTML = `<div class="empty-state"><p>Tidak ada hasil pencarian.</p></div>`; return; }
   list.innerHTML = '';
   chatItems.forEach(({ uid, p, lastMsg, lastTime, unread }) => {
     const item = document.createElement('div');
     item.className = `chat-item${activeChatUid === uid ? ' active' : ''}`;
     item.dataset.uid = uid;
-    item.innerHTML = `
-      <div class="avatar">
-        ${avatarHTML(p.avatar||'', p.username||'?', 46)}
-        <div class="online-dot ${p.online ? '' : 'offline'}"></div>
-      </div>
-      <div class="chat-info">
-        <div class="chat-info-top">
-          <div class="chat-name">${sanitize(p.username)}</div>
-          <div class="chat-time">${lastTime ? fmtTime(lastTime) : ''}</div>
-        </div>
-        <div class="chat-preview">${sanitize(lastMsg) || 'Mulai percakapan…'}</div>
-      </div>
-      ${unread > 0 ? `<div class="unread-badge">${unread > 99 ? '99+' : unread}</div>` : ''}`;
+    item.innerHTML = `<div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 46)}<div class="online-dot ${p.online ? '' : 'offline'}"></div></div><div class="chat-info"><div class="chat-info-top"><div class="chat-name">${sanitize(p.username)}</div><div class="chat-time">${lastTime ? fmtTime(lastTime) : ''}</div></div><div class="chat-preview">${sanitize(lastMsg) || 'Mulai percakapan…'}</div></div>${unread > 0 ? `<div class="unread-badge">${unread > 99 ? '99+' : unread}</div>` : ''}`;
     item.onclick = () => openChat(uid);
     list.appendChild(item);
   });
 }
-
 window.filterChats = function(val) { renderChatList(val); };
 
-// ================================================================
-// OPEN CHAT
-// ================================================================
 async function openChat(uid) {
-  // Mobile: hide sidebar
-  if (window.innerWidth <= 768) {
-    document.getElementById('sidebar').classList.add('mobile-hidden');
-  }
-
-  // If same chat, do nothing
+  if (window.innerWidth <= 768) document.getElementById('sidebar').classList.add('mobile-hidden');
   if (activeChatUid === uid) return;
-
-  // Cleanup previous listeners
   cleanupListeners();
-
-  activeChatUid  = uid;
+  activeChatUid = uid;
   activeChatRoom = roomId(currentUser.uid, uid);
-
-  // Show chat window
   document.getElementById('chat-welcome').classList.add('hidden');
   document.getElementById('chat-window').classList.remove('hidden');
-
-  // Update sidebar active state
-  document.querySelectorAll('.chat-item').forEach(el => {
-    el.classList.toggle('active', el.dataset.uid === uid);
-  });
-
-  // Load friend profile
+  document.querySelectorAll('.chat-item').forEach(el => el.classList.toggle('active', el.dataset.uid === uid));
   const p = friendsList[uid];
   if (!p) return;
-
-  // Update header
   updateChatHeader(p);
-
-  // Clear messages area & reset state
   document.getElementById('messages-area').innerHTML = '';
   document.getElementById('typing-indicator').innerHTML = '';
   cancelReply();
-
-  // Listen for messages (new messages added)
   let lastDate = null;
   unsubChat = onChildAdded(ref(db, `chats/${activeChatRoom}`), snap => {
-    const msg = snap.val();
-    const id  = snap.key;
+    const msg = snap.val(); const id = snap.key;
     if (!msg) return;
-
-    // Add date separator if date changed
     const d = fmtDate(msg.timestamp);
     if (d !== lastDate) {
       lastDate = d;
-      const sep  = document.createElement('div');
+      const sep = document.createElement('div');
       sep.className = 'msg-date-sep';
       sep.innerHTML = `<span>${sanitize(d)}</span>`;
       document.getElementById('messages-area').appendChild(sep);
     }
-
     renderMessage(id, msg);
     markMessageRead(id, msg);
     scrollToBottom();
   });
-
-  // Listen for message edits/deletes
   unsubChatChanged = onChildChanged(ref(db, `chats/${activeChatRoom}`), snap => {
-    const msg = snap.val();
-    const id  = snap.key;
+    const msg = snap.val(); const id = snap.key;
     if (!msg) return;
     const el = document.querySelector(`[data-msg-id="${id}"]`);
     if (!el) return;
-    const textEl   = el.querySelector('.msg-text');
-    const editedEl = el.querySelector('.msg-edited');
+    const textEl = el.querySelector('.msg-text');
     if (msg.deleted) {
       el.querySelector('.msg-bubble-inner').innerHTML = '<em style="color:var(--text-muted);font-size:13px;">🗑 Pesan dihapus</em>';
     } else {
       if (textEl) textEl.textContent = msg.text;
-      if (msg.edited && !editedEl) {
+      if (msg.edited && !el.querySelector('.msg-edited')) {
         const meta = el.querySelector('.msg-meta');
         if (meta) { const s=document.createElement('span'); s.className='msg-edited'; s.textContent='✎'; meta.insertBefore(s, meta.firstChild); }
       }
-      // Update star icon
       const starEl = el.querySelector('.msg-starred-icon');
       if (starEl) starEl.textContent = msg.starred ? '⭐' : '';
     }
   });
-
-  // Listen for typing indicator
   unsubTyping = onValue(ref(db, `typing/${activeChatRoom}/${uid}`), snap => {
     const typingEl = document.getElementById('typing-indicator');
     if (snap.val() && snap.val().typing) {
-      typingEl.innerHTML = `
-        <span style="font-size:13px;color:var(--text-secondary);">${sanitize(p.username)} mengetik</span>
-        <span class="typing-dots"><span></span><span></span><span></span></span>`;
-    } else {
-      typingEl.innerHTML = '';
-    }
+      typingEl.innerHTML = `<span style="font-size:13px;color:var(--text-secondary);">${sanitize(p.username)} mengetik</span><span class="typing-dots"><span></span><span></span><span></span></span>`;
+    } else { typingEl.innerHTML = ''; }
   });
-
-  // Watch friend presence updates
   unsubPresence = onValue(ref(db, `users/${uid}`), snap2 => {
     const up = snap2.val();
     if (!up) return;
     friendsList[uid] = { ...(friendsList[uid]||{}), ...up };
     updateChatHeader(friendsList[uid]);
-    // Update sidebar dot
     const sideItem = document.querySelector(`.chat-item[data-uid="${uid}"] .online-dot`);
     if (sideItem) sideItem.className = `online-dot ${up.online ? '' : 'offline'}`;
   });
@@ -1659,294 +1385,123 @@ async function openChat(uid) {
 function updateChatHeader(p) {
   document.getElementById('chat-header-name').textContent = p.username || '–';
   const statusEl = document.getElementById('chat-header-status');
-  if (p.online) {
-    statusEl.textContent = 'Online';
-    statusEl.className   = 'chat-header-status online';
-  } else {
-    statusEl.textContent = p.lastSeen ? `Terakhir ${fmtTime(p.lastSeen)}` : 'Offline';
-    statusEl.className   = 'chat-header-status';
-  }
-  document.getElementById('chat-header-avatar').innerHTML =
-    `<div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 40)}
-      <div class="online-dot ${p.online ? '' : 'offline'}"></div>
-    </div>`;
+  if (p.online) { statusEl.textContent = 'Online'; statusEl.className = 'chat-header-status online'; }
+  else { statusEl.textContent = p.lastSeen ? `Terakhir ${fmtTime(p.lastSeen)}` : 'Offline'; statusEl.className = 'chat-header-status'; }
+  document.getElementById('chat-header-avatar').innerHTML = `<div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 40)}<div class="online-dot ${p.online ? '' : 'offline'}"></div></div>`;
 }
-
-/** Mark incoming message as read */
 function markMessageRead(id, msg) {
-  if (msg.senderUid !== currentUser.uid && !msg.read) {
-    update(ref(db, `chats/${activeChatRoom}/${id}`), { read: true }).catch(()=>{});
-  }
+  if (msg.senderUid !== currentUser.uid && !msg.read) update(ref(db, `chats/${activeChatRoom}/${id}`), { read: true }).catch(()=>{});
 }
-
-/** Scroll messages area to bottom */
 function scrollToBottom(smooth=false) {
   const area = document.getElementById('messages-area');
   if (smooth) area.scrollTo({ top: area.scrollHeight, behavior:'smooth' });
   else area.scrollTop = area.scrollHeight;
 }
 
-// ================================================================
-// RENDER MESSAGE
-// ================================================================
 function renderMessage(id, msg) {
   if (!msg) return;
-  const area  = document.getElementById('messages-area');
+  const area = document.getElementById('messages-area');
   const isOut = msg.senderUid === currentUser.uid;
-
-  // Build reply preview HTML
   let replyHTML = '';
   if (msg.replyTo) {
-    replyHTML = `<div class="reply-preview">
-      <div class="reply-preview-name">${sanitize(msg.replyTo.senderName)}</div>
-      <div class="reply-preview-text">${sanitize(msg.replyTo.text)}</div>
-    </div>`;
+    replyHTML = `<div class="reply-preview"><div class="reply-preview-name">${sanitize(msg.replyTo.senderName)}</div><div class="reply-preview-text">${sanitize(msg.replyTo.text)}</div></div>`;
   }
-
-  // Build bubble inner content
   const innerContent = msg.deleted
     ? `<em style="color:var(--text-muted);font-size:13px;">🗑 Pesan dihapus</em>`
     : `${replyHTML}<span class="msg-text">${sanitize(msg.text)}</span>`;
-
   const row = document.createElement('div');
   row.className = `msg-row ${isOut ? 'outgoing' : 'incoming'}`;
   row.dataset.msgId = id;
-
-  row.innerHTML = `
-    <div class="msg-bubble" data-msg-id="${id}">
-      <div class="msg-bubble-inner">${innerContent}</div>
-      <div class="msg-meta">
-        ${msg.edited && !msg.deleted ? '<span class="msg-edited">✎&nbsp;</span>' : ''}
-        <span class="msg-time">${fmtTime(msg.timestamp)}</span>
-        <span class="msg-starred-icon">${msg.starred ? '⭐' : ''}</span>
-      </div>
-    </div>`;
-
-  // Context menu on right-click or long press
+  row.innerHTML = `<div class="msg-bubble" data-msg-id="${id}"><div class="msg-bubble-inner">${innerContent}</div><div class="msg-meta">${msg.edited && !msg.deleted ? '<span class="msg-edited">✎&nbsp;</span>' : ''}<span class="msg-time">${fmtTime(msg.timestamp)}</span><span class="msg-starred-icon">${msg.starred ? '⭐' : ''}</span></div></div>`;
   const bubble = row.querySelector('.msg-bubble');
-  bubble.addEventListener('contextmenu', e => {
-    e.preventDefault();
-    showCtxMenu(e.clientX, e.clientY, id, msg, isOut);
-  });
-
-  // Double click to reply
-  bubble.addEventListener('dblclick', () => {
-    if (!msg.deleted) setReply(id, msg);
-  });
-
+  bubble.addEventListener('contextmenu', e => { e.preventDefault(); showCtxMenu(e.clientX, e.clientY, id, msg, isOut); });
+  bubble.addEventListener('dblclick', () => { if (!msg.deleted) setReply(id, msg); });
   area.appendChild(row);
 }
 
-// ================================================================
-// SEND MESSAGE
-// ================================================================
 window.sendMessage = async function() {
   const input = document.getElementById('msg-input');
-  const text  = input.value.trim();
-
+  const text = input.value.trim();
   if (!text || !activeChatRoom || !currentUser) return;
-
-  // Clear input immediately for UX
-  input.value = '';
-  autoResizeInput(input);
-
-  // Build message object
+  input.value = ''; autoResizeInput(input);
   const msgData = {
-    text: text.substring(0, 2000), // Max 2000 chars
-    senderUid:  currentUser.uid,
+    text: text.substring(0, 2000), senderUid: currentUser.uid,
     senderName: myProfile ? myProfile.username : 'unknown',
-    timestamp:  Date.now(),
-    read: false, deleted: false, starred: false, edited: false
+    timestamp: Date.now(), read: false, deleted: false, starred: false, edited: false
   };
-
-  // Attach reply context if exists
-  if (replyTo) {
-    msgData.replyTo = {
-      id:         replyTo.id,
-      text:       replyTo.text.substring(0, 80),
-      senderName: replyTo.senderName
-    };
-    cancelReply();
-  }
-
+  if (replyTo) { msgData.replyTo = { id: replyTo.id, text: replyTo.text.substring(0, 80), senderName: replyTo.senderName }; cancelReply(); }
   try {
-    // Push message to Firebase
     await push(ref(db, `chats/${activeChatRoom}`), msgData);
-
-    // Clear typing indicator
     await update(ref(db, `typing/${activeChatRoom}/${currentUser.uid}`), { typing: false });
-
-    // Notify friend if offline
-    const friendSnap = await get(ref(db, `users/${activeChatUid}`));
-    const friend     = friendSnap.val();
+    const friend = (await get(ref(db, `users/${activeChatUid}`))).val();
     if (friend && !friend.online) {
-      await push(ref(db, `notifications/${activeChatUid}`), {
-        type: 'new_message', fromUid: currentUser.uid,
-        fromUsername: myProfile ? myProfile.username : '',
-        preview: text.substring(0, 60), timestamp: Date.now()
-      });
+      await push(ref(db, `notifications/${activeChatUid}`), { type: 'new_message', fromUid: currentUser.uid, fromUsername: myProfile ? myProfile.username : '', preview: text.substring(0, 60), timestamp: Date.now() });
     }
-
-    // Refresh chat list order
-    renderChatList();
-
-    // Play subtle send sound
-    playSendSound();
-  } catch(e) {
-    showToast('Gagal mengirim pesan: ' + e.message, 'error');
-    input.value = text; // Restore text
-  }
+    renderChatList(); playSendSound();
+  } catch(e) { showToast('Gagal mengirim pesan: ' + e.message, 'error'); input.value = text; }
 };
 
-// ================================================================
-// TYPING INDICATOR
-// ================================================================
 window.handleTyping = function() {
   if (!activeChatRoom || !currentUser) return;
   update(ref(db, `typing/${activeChatRoom}/${currentUser.uid}`), { typing: true }).catch(()=>{});
   clearTimeout(typingTimer);
-  typingTimer = setTimeout(() => {
-    update(ref(db, `typing/${activeChatRoom}/${currentUser.uid}`), { typing: false }).catch(()=>{});
-  }, 2500);
+  typingTimer = setTimeout(() => { update(ref(db, `typing/${activeChatRoom}/${currentUser.uid}`), { typing: false }).catch(()=>{}); }, 2500);
 };
+window.handleInputKeydown = function(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } };
+window.autoResizeInput = function(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; };
 
-window.handleInputKeydown = function(e) {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-};
-
-window.autoResizeInput = function(el) {
-  el.style.height = 'auto';
-  el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-};
-
-// ================================================================
-// CONTEXT MENU
-// ================================================================
 function showCtxMenu(x, y, id, msg, isOut) {
-  ctxMsgId   = id;
-  ctxMsgData = msg;
-
+  ctxMsgId = id; ctxMsgData = msg;
   const menu = document.getElementById('ctx-menu');
-  // Position within viewport
-  const menuW = 175, menuH = 220;
-  const safeX = Math.min(x, window.innerWidth  - menuW - 8);
-  const safeY = Math.min(y, window.innerHeight - menuH - 8);
-
+  const safeX = Math.min(x, window.innerWidth - 183);
+  const safeY = Math.min(y, window.innerHeight - 228);
   menu.style.left = `${Math.max(8, safeX)}px`;
   menu.style.top  = `${Math.max(8, safeY)}px`;
-
-  // Show/hide owner-only actions
   const isOwner = isOut && !msg.deleted;
   document.getElementById('ctx-edit-btn').style.display   = isOwner ? 'flex' : 'none';
   document.getElementById('ctx-delete-btn').style.display = isOwner ? 'flex' : 'none';
-  document.getElementById('ctx-star-btn').innerHTML = `
-    <svg viewBox="0 0 24 24" fill="${msg.starred?'var(--warn)':'none'}" stroke="${msg.starred?'var(--warn)':'currentColor'}" stroke-width="2">
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-    </svg> ${msg.starred ? 'Hapus Favorit' : 'Tandai Favorit'}`;
-
+  document.getElementById('ctx-star-btn').innerHTML = `<svg viewBox="0 0 24 24" fill="${msg.starred?'var(--warn)':'none'}" stroke="${msg.starred?'var(--warn)':'currentColor'}" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> ${msg.starred ? 'Hapus Favorit' : 'Tandai Favorit'}`;
   menu.classList.add('show');
 }
-
-// Close context menu on outside click
 document.addEventListener('click', e => {
-  if (!e.target.closest('#ctx-menu')) {
-    document.getElementById('ctx-menu').classList.remove('show');
-  }
-  if (!e.target.closest('#emoji-picker') && !e.target.closest('.emoji-btn')) {
-    document.getElementById('emoji-picker').classList.remove('show');
-  }
+  if (!e.target.closest('#ctx-menu')) document.getElementById('ctx-menu').classList.remove('show');
+  if (!e.target.closest('#emoji-picker') && !e.target.closest('.emoji-btn')) document.getElementById('emoji-picker').classList.remove('show');
 });
 
-/** Reply from context menu */
-window.ctxReply = function() {
-  if (ctxMsgData && !ctxMsgData.deleted) setReply(ctxMsgId, ctxMsgData);
-  document.getElementById('ctx-menu').classList.remove('show');
-};
-
-/** Copy from context menu */
-window.ctxCopy = function() {
-  if (ctxMsgData && ctxMsgData.text) {
-    navigator.clipboard.writeText(ctxMsgData.text).then(() => showToast('Pesan disalin!')).catch(()=>{});
-  }
-  document.getElementById('ctx-menu').classList.remove('show');
-};
-
-/** Edit from context menu */
-window.ctxEdit = function() {
-  if (!ctxMsgData || ctxMsgData.deleted) return;
-  editMsgId = ctxMsgId;
-  document.getElementById('edit-input').value = ctxMsgData.text || '';
-  openModal('edit-modal');
-  document.getElementById('ctx-menu').classList.remove('show');
-};
-
-/** Save edited message */
+window.ctxReply   = function() { if (ctxMsgData && !ctxMsgData.deleted) setReply(ctxMsgId, ctxMsgData); document.getElementById('ctx-menu').classList.remove('show'); };
+window.ctxCopy    = function() { if (ctxMsgData && ctxMsgData.text) navigator.clipboard.writeText(ctxMsgData.text).then(() => showToast('Pesan disalin!')).catch(()=>{}); document.getElementById('ctx-menu').classList.remove('show'); };
+window.ctxEdit    = function() { if (!ctxMsgData || ctxMsgData.deleted) return; editMsgId = ctxMsgId; document.getElementById('edit-input').value = ctxMsgData.text || ''; openModal('edit-modal'); document.getElementById('ctx-menu').classList.remove('show'); };
 window.doEditMessage = async function() {
   const newText = document.getElementById('edit-input').value.trim();
   if (!newText || !editMsgId || !activeChatRoom) return;
-  try {
-    await update(ref(db, `chats/${activeChatRoom}/${editMsgId}`), { text: newText, edited: true });
-    closeModal('edit-modal');
-    showToast('Pesan diperbarui!');
-  } catch(e) {
-    showToast('Gagal edit: ' + e.message, 'error');
-  }
+  try { await update(ref(db, `chats/${activeChatRoom}/${editMsgId}`), { text: newText, edited: true }); closeModal('edit-modal'); showToast('Pesan diperbarui!'); }
+  catch(e) { showToast('Gagal edit: ' + e.message, 'error'); }
 };
-
-/** Delete message from context menu */
 window.ctxDelete = async function() {
   if (!ctxMsgId || !activeChatRoom) return;
-  try {
-    await update(ref(db, `chats/${activeChatRoom}/${ctxMsgId}`), { deleted: true, text: '' });
-    showToast('Pesan dihapus.', 'info');
-  } catch(e) {
-    showToast('Gagal hapus: ' + e.message, 'error');
-  }
+  try { await update(ref(db, `chats/${activeChatRoom}/${ctxMsgId}`), { deleted: true, text: '' }); showToast('Pesan dihapus.', 'info'); }
+  catch(e) { showToast('Gagal hapus: ' + e.message, 'error'); }
   document.getElementById('ctx-menu').classList.remove('show');
 };
-
-/** Star/unstar message */
 window.ctxStar = async function() {
   if (!ctxMsgId || !activeChatRoom || !ctxMsgData) return;
-  try {
-    const newStar = !ctxMsgData.starred;
-    await update(ref(db, `chats/${activeChatRoom}/${ctxMsgId}`), { starred: newStar });
-    showToast(newStar ? '⭐ Ditandai sebagai favorit!' : 'Tanda favorit dihapus.', newStar?'success':'info');
-  } catch(e) {
-    showToast('Gagal: ' + e.message, 'error');
-  }
+  try { const newStar = !ctxMsgData.starred; await update(ref(db, `chats/${activeChatRoom}/${ctxMsgId}`), { starred: newStar }); showToast(newStar ? '⭐ Ditandai sebagai favorit!' : 'Tanda favorit dihapus.', newStar?'success':'info'); }
+  catch(e) { showToast('Gagal: ' + e.message, 'error'); }
   document.getElementById('ctx-menu').classList.remove('show');
 };
-
-/** Forward message */
-window.ctxForward = function() {
-  buildForwardList();
-  openModal('forward-modal');
-  document.getElementById('ctx-menu').classList.remove('show');
-};
-
+window.ctxForward = function() { buildForwardList(); openModal('forward-modal'); document.getElementById('ctx-menu').classList.remove('show'); };
 function buildForwardList() {
   const list = document.getElementById('forward-list');
   list.innerHTML = '';
   const entries = Object.entries(friendsList);
-  if (!entries.length) {
-    list.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:8px 0;">Belum ada teman.</p>';
-    return;
-  }
+  if (!entries.length) { list.innerHTML = '<p style="font-size:13px;color:var(--text-muted);padding:8px 0;">Belum ada teman.</p>'; return; }
   entries.forEach(([uid, p]) => {
     const item = document.createElement('div');
     item.className = 'fwd-friend-item';
-    item.innerHTML = `
-      <input type="checkbox" value="${uid}" id="fwd-${uid}"/>
-      <div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 36)}</div>
-      <label for="fwd-${uid}" style="cursor:pointer;font-size:14px;font-weight:500;flex:1;">${sanitize(p.username)}</label>`;
+    item.innerHTML = `<input type="checkbox" value="${uid}" id="fwd-${uid}"/><div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 36)}</div><label for="fwd-${uid}" style="cursor:pointer;font-size:14px;font-weight:500;flex:1;">${sanitize(p.username)}</label>`;
     list.appendChild(item);
   });
 }
-
 window.doForward = async function() {
   const checked = [...document.querySelectorAll('#forward-list input:checked')].map(el=>el.value);
   if (!checked.length) { showToast('Pilih minimal 1 teman.', 'error'); return; }
@@ -1954,26 +1509,11 @@ window.doForward = async function() {
   const fwdText = `↩ *diteruskan*: ${ctxMsgData.text}`;
   let ok = 0;
   for (const uid of checked) {
-    try {
-      const rid = roomId(currentUser.uid, uid);
-      await push(ref(db, `chats/${rid}`), {
-        text: fwdText,
-        senderUid:  currentUser.uid,
-        senderName: myProfile ? myProfile.username : '',
-        timestamp:  Date.now(),
-        read: false, deleted: false, starred: false, edited: false
-      });
-      ok++;
-    } catch(e) {}
+    try { await push(ref(db, `chats/${roomId(currentUser.uid, uid)}`), { text: fwdText, senderUid: currentUser.uid, senderName: myProfile ? myProfile.username : '', timestamp: Date.now(), read: false, deleted: false, starred: false, edited: false }); ok++; } catch(e) {}
   }
-  closeModal('forward-modal');
-  showToast(`Pesan diteruskan ke ${ok} teman!`);
-  renderChatList();
+  closeModal('forward-modal'); showToast(`Pesan diteruskan ke ${ok} teman!`); renderChatList();
 };
 
-// ================================================================
-// REPLY
-// ================================================================
 function setReply(id, msg) {
   replyTo = { id, text: msg.text || '', senderName: msg.senderName || '' };
   document.getElementById('reply-bar').classList.add('show');
@@ -1981,88 +1521,52 @@ function setReply(id, msg) {
   document.getElementById('reply-bar-text').textContent = (msg.text || '').substring(0, 80);
   document.getElementById('msg-input').focus();
 }
+window.cancelReply = function() { replyTo = null; document.getElementById('reply-bar').classList.remove('show'); };
 
-window.cancelReply = function() {
-  replyTo = null;
-  document.getElementById('reply-bar').classList.remove('show');
-};
-
-// ================================================================
-// EMOJI PICKER
-// ================================================================
 function buildEmojiGrid(filter='') {
-  const grid   = document.getElementById('emoji-grid');
+  const grid = document.getElementById('emoji-grid');
   grid.innerHTML = '';
-  const list   = filter ? allEmojis.filter(e => e.includes(filter)) : allEmojis;
+  const list = filter ? allEmojis.filter(e => e.includes(filter)) : allEmojis;
   list.forEach(e => {
-    const cell  = document.createElement('div');
-    cell.className = 'emoji-cell';
-    cell.textContent = e;
+    const cell = document.createElement('div');
+    cell.className = 'emoji-cell'; cell.textContent = e;
     cell.onclick = () => {
       const inp = document.getElementById('msg-input');
       const pos = inp.selectionStart || inp.value.length;
       inp.value = inp.value.slice(0, pos) + e + inp.value.slice(pos);
-      inp.focus();
-      inp.setSelectionRange(pos+2, pos+2);
+      inp.focus(); inp.setSelectionRange(pos+2, pos+2);
       document.getElementById('emoji-picker').classList.remove('show');
     };
     grid.appendChild(cell);
   });
 }
+window.toggleEmoji = function() { document.getElementById('emoji-picker').classList.toggle('show'); };
+window.filterEmoji = function(val) { buildEmojiGrid(val); };
 
-window.toggleEmoji = function() {
-  document.getElementById('emoji-picker').classList.toggle('show');
-};
-
-window.filterEmoji = function(val) {
-  buildEmojiGrid(val);
-};
-
-// ================================================================
-// STARRED MESSAGES
-// ================================================================
 window.openStarred = async function() {
   if (!activeChatRoom) return;
   try {
-    const snap    = await get(ref(db, `chats/${activeChatRoom}`));
-    const msgs    = snap.val() || {};
+    const msgs = (await get(ref(db, `chats/${activeChatRoom}`))).val() || {};
     const starred = Object.entries(msgs).filter(([,m])=>m && m.starred && !m.deleted);
-    const list    = document.getElementById('starred-list');
-
-    if (!starred.length) {
-      list.innerHTML = `<div class="empty-state" style="padding:16px 0;"><p>Belum ada pesan favorit di chat ini.</p></div>`;
-    } else {
+    const list = document.getElementById('starred-list');
+    if (!starred.length) { list.innerHTML = `<div class="empty-state" style="padding:16px 0;"><p>Belum ada pesan favorit di chat ini.</p></div>`; }
+    else {
       list.innerHTML = '';
       starred.sort((a,b)=>a[1].timestamp-b[1].timestamp).forEach(([id, msg]) => {
         const item = document.createElement('div');
         item.className = 'starred-msg-item';
-        item.innerHTML = `
-          <div>${sanitize(msg.text)}</div>
-          <div class="starred-msg-meta">dari <strong>${sanitize(msg.senderName)}</strong> · ${fmtTime(msg.timestamp)}</div>`;
+        item.innerHTML = `<div>${sanitize(msg.text)}</div><div class="starred-msg-meta">dari <strong>${sanitize(msg.senderName)}</strong> · ${fmtTime(msg.timestamp)}</div>`;
         list.appendChild(item);
       });
     }
     openModal('starred-modal');
-  } catch(e) {
-    showToast('Gagal memuat favorit: ' + e.message, 'error');
-  }
+  } catch(e) { showToast('Gagal memuat favorit: ' + e.message, 'error'); }
 };
 
-// ================================================================
-// PRESENCE LOOP
-// ================================================================
 function startPresenceLoop() {
-  // Keep online status updated every 30s
-  setInterval(() => {
-    if (currentUser) {
-      update(ref(db, `users/${currentUser.uid}`), { online: true, lastSeen: Date.now() }).catch(()=>{});
-    }
-  }, 30000);
+  setInterval(() => { if (currentUser) update(ref(db, `users/${currentUser.uid}`), { online: true, lastSeen: Date.now() }).catch(()=>{}); }, 30000);
 }
 
-// ================================================================
-// PROFILE MODAL
-// ================================================================
 window.openProfile = function() {
   if (!myProfile) return;
   document.getElementById('profile-username').value = myProfile.username || '';
@@ -2070,18 +1574,16 @@ window.openProfile = function() {
   document.getElementById('profile-uid').textContent = myProfile.userId  || '–';
   document.getElementById('profile-friend-count').textContent = Object.keys(friendsList).length;
   const d = myProfile.createdAt ? new Date(myProfile.createdAt) : null;
-  document.getElementById('profile-created').textContent = d
-    ? d.toLocaleDateString('id-ID', { month:'short', year:'numeric' })
-    : '–';
-  const avEl = document.getElementById('profile-avatar-img');
-  avEl.innerHTML = avatarHTML(myProfile.avatar||'', myProfile.username||'?', 86);
+  document.getElementById('profile-created').textContent = d ? d.toLocaleDateString('id-ID', { month:'short', year:'numeric' }) : '–';
+  document.getElementById('profile-avatar-img').innerHTML = avatarHTML(myProfile.avatar||'', myProfile.username||'?', 86);
   openModal('profile-modal');
 };
 
-window.triggerAvatarUpload = function() {
-  document.getElementById('avatar-input').click();
-};
+window.triggerAvatarUpload = function() { document.getElementById('avatar-input').click(); };
 
+// ================================================================
+// UPLOAD AVATAR - PAKAI SERVER SENDIRI (BUKAN FIREBASE STORAGE)
+// ================================================================
 window.uploadAvatar = async function(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -2089,9 +1591,12 @@ window.uploadAvatar = async function(e) {
   if (!file.type.startsWith('image/')) { showToast('File harus berupa gambar.', 'error'); return; }
   showToast('Mengupload foto profil…', 'info');
   try {
-    const imgRef = sRef(storage, `avatars/${currentUser.uid}`);
-    await uploadBytes(imgRef, file);
-    const url    = await getDownloadURL(imgRef);
+    const formData = new FormData();
+    formData.append('avatar', file);
+    const res = await fetch(`${STORAGE_SERVER}/upload/${currentUser.uid}`, { method: 'POST', body: formData });
+    if (!res.ok) throw new Error('Upload gagal, cek apakah server & Cloudflare sedang jalan.');
+    const data = await res.json();
+    const url  = data.url;
     await update(ref(db, `users/${currentUser.uid}`), { avatar: url });
     myProfile.avatar = url;
     renderSidebarAvatar();
@@ -2100,288 +1605,317 @@ window.uploadAvatar = async function(e) {
   } catch(err) {
     showToast('Gagal upload foto: ' + err.message, 'error');
   }
-  e.target.value = ''; // Reset input
+  e.target.value = '';
 };
 
 window.saveProfile = async function() {
   const newUsername = document.getElementById('profile-username').value.trim().toLowerCase();
   const newBio      = document.getElementById('profile-bio').value.trim().substring(0, 120);
-
   if (!newUsername || newUsername.length < 3) { showToast('Username minimal 3 karakter.', 'error'); return; }
-  if (!/^[a-z0-9_]+$/.test(newUsername))       { showToast('Username tidak valid.', 'error'); return; }
-
+  if (!/^[a-z0-9_]+$/.test(newUsername)) { showToast('Username tidak valid.', 'error'); return; }
   try {
-    // Check username availability (only if changed)
     if (newUsername !== myProfile.username) {
       const usnSnap = await get(ref(db, `usernames/${newUsername}`));
       if (usnSnap.exists()) { showToast('Username sudah digunakan.', 'error'); return; }
-      // Update username index
       await remove(ref(db, `usernames/${myProfile.username}`));
       await set(ref(db, `usernames/${newUsername}`), currentUser.uid);
     }
-
     await update(ref(db, `users/${currentUser.uid}`), { username: newUsername, bio: newBio });
-    myProfile.username = newUsername;
-    myProfile.bio      = newBio;
-    renderSidebarAvatar();
-    showToast('Profil berhasil disimpan!');
-    closeModal('profile-modal');
-  } catch(e) {
-    showToast('Gagal simpan profil: ' + e.message, 'error');
-  }
+    myProfile.username = newUsername; myProfile.bio = newBio;
+    renderSidebarAvatar(); showToast('Profil berhasil disimpan!'); closeModal('profile-modal');
+  } catch(e) { showToast('Gagal simpan profil: ' + e.message, 'error'); }
 };
 
-// ================================================================
-// ADD FRIEND / SEARCH USER
-// ================================================================
 window.openAddFriend = function() {
   document.getElementById('search-uid-input').value = '';
-  document.getElementById('search-result').innerHTML  = '';
+  document.getElementById('search-result').innerHTML = '';
   openModal('add-friend-modal');
 };
 
 window.searchUser = async function() {
-  const raw       = document.getElementById('search-uid-input').value.trim();
-  const resultEl  = document.getElementById('search-result');
+  const raw = document.getElementById('search-uid-input').value.trim();
+  const resultEl = document.getElementById('search-result');
   resultEl.innerHTML = '';
-
-  if (!raw) {
-    resultEl.innerHTML = '<p style="font-size:13px;color:var(--danger);margin-top:8px;">Masukkan User ID terlebih dahulu.</p>';
-    return;
-  }
-
-  // Pad to 8 digits
+  if (!raw) { resultEl.innerHTML = '<p style="font-size:13px;color:var(--danger);margin-top:8px;">Masukkan User ID terlebih dahulu.</p>'; return; }
   const uidFormatted = raw.padStart(8, '0');
-
-  // Show loading
   resultEl.innerHTML = '<div style="display:flex;justify-content:center;padding:16px 0;"><div class="spinner"></div></div>';
   setLoading('search-btn', true);
-
   try {
-    // Look up uid from userId index
-    const idxSnap   = await get(ref(db, `userIds/${uidFormatted}`));
+    const idxSnap = await get(ref(db, `userIds/${uidFormatted}`));
     setLoading('search-btn', false, 'Cari Pengguna');
-
-    if (!idxSnap.exists()) {
-      resultEl.innerHTML = '<p style="font-size:13px;color:var(--danger);margin-top:8px;">User dengan ID tersebut tidak ditemukan.</p>';
-      return;
-    }
-
+    if (!idxSnap.exists()) { resultEl.innerHTML = '<p style="font-size:13px;color:var(--danger);margin-top:8px;">User tidak ditemukan.</p>'; return; }
     const targetUid = idxSnap.val();
-
-    // Prevent finding yourself
-    if (targetUid === currentUser.uid) {
-      resultEl.innerHTML = '<p style="font-size:13px;color:var(--warn);margin-top:8px;">Itu adalah akun kamu sendiri 😄</p>';
-      return;
-    }
-
-    // Get target profile
-    const pSnap = await get(ref(db, `users/${targetUid}`));
-    if (!pSnap.exists()) {
-      resultEl.innerHTML = '<p style="font-size:13px;color:var(--danger);margin-top:8px;">Profil pengguna tidak ditemukan.</p>';
-      return;
-    }
-
-    const p = pSnap.val();
-
-    // Check existing relationship
-    const isFriend     = !!(friendsList[targetUid]);
-    const reqSentSnap  = await get(ref(db, `friendRequests/${targetUid}/${currentUser.uid}`));
-    const alreadySent  = reqSentSnap.exists();
-    const reqRecvSnap  = await get(ref(db, `friendRequests/${currentUser.uid}/${targetUid}`));
-    const hasReceived  = reqRecvSnap.exists();
-
-    // Build action button
+    if (targetUid === currentUser.uid) { resultEl.innerHTML = '<p style="font-size:13px;color:var(--warn);margin-top:8px;">Itu adalah akun kamu sendiri 😄</p>'; return; }
+    const p = (await get(ref(db, `users/${targetUid}`))).val();
+    if (!p) { resultEl.innerHTML = '<p style="font-size:13px;color:var(--danger);margin-top:8px;">Profil tidak ditemukan.</p>'; return; }
+    const isFriend    = !!(friendsList[targetUid]);
+    const alreadySent = (await get(ref(db, `friendRequests/${targetUid}/${currentUser.uid}`))).exists();
+    const hasReceived = (await get(ref(db, `friendRequests/${currentUser.uid}/${targetUid}`))).exists();
     let actionBtn = '';
-    if (isFriend) {
-      actionBtn = `<button class="btn-secondary fw mt8" onclick="openChat('${targetUid}');closeModal('add-friend-modal');">
-        💬 Mulai Chat
-      </button>`;
-    } else if (alreadySent) {
-      actionBtn = `<button class="btn-secondary fw mt8" disabled style="opacity:.55;cursor:not-allowed;">
-        ✓ Permintaan Terkirim
-      </button>`;
-    } else if (hasReceived) {
-      actionBtn = `<button class="btn-primary fw mt8" onclick="acceptFromSearch('${targetUid}')">
-        ✓ Terima Permintaan Pertemanan
-      </button>`;
-    } else {
-      actionBtn = `<button class="btn-primary fw mt8" onclick="sendFriendRequest('${targetUid}','${sanitize(p.username)}')">
-        ➕ Tambah Teman
-      </button>`;
-    }
-
-    resultEl.innerHTML = `
-      <div class="search-result-card mt8">
-        <div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 52)}</div>
-        <div class="search-result-info">
-          <div class="search-result-name">${sanitize(p.username)}</div>
-          <div class="search-result-uid">🆔 ${sanitize(p.userId)}</div>
-          <div class="search-result-bio">${sanitize(p.bio) || '– belum ada bio –'}</div>
-          <div class="search-result-status ${p.online?'online':''}">${p.online ? '🟢 Online' : '⚫ Offline'}</div>
-        </div>
-      </div>
-      ${actionBtn}`;
-
-  } catch(e) {
-    setLoading('search-btn', false, 'Cari Pengguna');
-    resultEl.innerHTML = `<p style="font-size:13px;color:var(--danger);margin-top:8px;">Error: ${sanitize(e.message)}</p>`;
-  }
+    if (isFriend) actionBtn = `<button class="btn-secondary fw mt8" onclick="openChat('${targetUid}');closeModal('add-friend-modal');">💬 Mulai Chat</button>`;
+    else if (alreadySent) actionBtn = `<button class="btn-secondary fw mt8" disabled style="opacity:.55;cursor:not-allowed;">✓ Permintaan Terkirim</button>`;
+    else if (hasReceived) actionBtn = `<button class="btn-primary fw mt8" onclick="acceptFromSearch('${targetUid}')">✓ Terima Permintaan Pertemanan</button>`;
+    else actionBtn = `<button class="btn-primary fw mt8" onclick="sendFriendRequest('${targetUid}','${sanitize(p.username)}')">➕ Tambah Teman</button>`;
+    resultEl.innerHTML = `<div class="search-result-card mt8"><div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 52)}</div><div class="search-result-info"><div class="search-result-name">${sanitize(p.username)}</div><div class="search-result-uid">🆔 ${sanitize(p.userId)}</div><div class="search-result-bio">${sanitize(p.bio) || '– belum ada bio –'}</div><div class="search-result-status ${p.online?'online':''}">${p.online ? '🟢 Online' : '⚫ Offline'}</div></div></div>${actionBtn}`;
+  } catch(e) { setLoading('search-btn', false, 'Cari Pengguna'); resultEl.innerHTML = `<p style="font-size:13px;color:var(--danger);margin-top:8px;">Error: ${sanitize(e.message)}</p>`; }
 };
 
-/** Send friend request to target user */
 window.sendFriendRequest = async function(targetUid, targetUsername) {
   if (!myProfile) return;
   try {
-    // Save request under target's friendRequests node
-    await set(ref(db, `friendRequests/${targetUid}/${currentUser.uid}`), {
-      username:  myProfile.username,
-      userId:    myProfile.userId,
-      avatar:    myProfile.avatar  || '',
-      bio:       myProfile.bio     || '',
-      timestamp: Date.now(),
-      fromUid:   currentUser.uid
-    });
+    await set(ref(db, `friendRequests/${targetUid}/${currentUser.uid}`), { username: myProfile.username, userId: myProfile.userId, avatar: myProfile.avatar||'', bio: myProfile.bio||'', timestamp: Date.now(), fromUid: currentUser.uid });
     showToast(`Permintaan pertemanan dikirim ke ${targetUsername || 'pengguna'}!`);
-    // Refresh result to show "sent" state
     await searchUser();
-  } catch(e) {
-    showToast('Gagal kirim permintaan: ' + e.message, 'error');
-  }
+  } catch(e) { showToast('Gagal kirim permintaan: ' + e.message, 'error'); }
 };
 
-/** Accept friend request from search result */
 window.acceptFromSearch = async function(uid) {
-  try {
-    const reqSnap = await get(ref(db, `friendRequests/${currentUser.uid}/${uid}`));
-    const data    = reqSnap.val() || {};
-    await acceptFriendRequest(uid, data);
-    closeModal('add-friend-modal');
-  } catch(e) {
-    showToast('Gagal menerima: ' + e.message, 'error');
-  }
+  try { const data = (await get(ref(db, `friendRequests/${currentUser.uid}/${uid}`))).val() || {}; await acceptFriendRequest(uid, data); closeModal('add-friend-modal'); }
+  catch(e) { showToast('Gagal menerima: ' + e.message, 'error'); }
 };
 
-// ================================================================
-// NOTIFICATIONS
-// ================================================================
 function requestNotificationPermission() {
-  if ('Notification' in window && Notification.permission === 'default') {
-    Notification.requestPermission();
-  }
+  if ('Notification' in window && Notification.permission === 'default') Notification.requestPermission();
 }
-
 function watchNotifications() {
   if (notifInit || !currentUser) return;
   notifInit = true;
-
   onChildAdded(ref(db, `notifications/${currentUser.uid}`), snap => {
-    const n = snap.val();
-    if (!n) return;
-
+    const n = snap.val(); if (!n) return;
     if (n.type === 'new_message' && n.fromUid !== activeChatUid) {
       playNotifSound();
-      if (Notification.permission === 'granted') {
-        new Notification(`💬 ${n.fromUsername}`, {
-          body: n.preview || 'Pesan baru',
-          icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><path d="M24 4C13 4 4 13 4 24c0 3.6.96 6.97 2.63 9.87L4 44l10.4-2.6A19.9 19.9 0 0024 44c11 0 20-9 20-20S35 4 24 4z" fill="%2325d366"/></svg>'
-        });
-      }
-      // Update unread in sidebar
+      if (Notification.permission === 'granted') new Notification(`💬 ${n.fromUsername}`, { body: n.preview || 'Pesan baru' });
       renderChatList();
     }
-
-    if (n.type === 'friend_accepted') {
-      showToast(`🤝 ${n.fromUsername} menerima permintaan pertemananmu!`);
-    }
-
-    // Remove notification after processing
+    if (n.type === 'friend_accepted') showToast(`🤝 ${n.fromUsername} menerima permintaan pertemananmu!`);
+    if (n.type === 'message_request') showToast(`✉ ${n.fromUsername} mengirim permintaan pesan!`, 'info');
+    if (n.type === 'msgreq_accepted') showToast(`🤝 ${n.fromUsername} menerima pesanmu!`);
     remove(snap.ref).catch(()=>{});
   });
 }
 
-// ================================================================
-// SOUND EFFECTS
-// ================================================================
 function playSendSound() {
   try {
-    const ctx  = new (window.AudioContext || window.webkitAudioContext)();
-    const osc  = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
     osc.type = 'sine';
     osc.frequency.setValueAtTime(1200, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.06);
     gain.gain.setValueAtTime(0.08, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.12);
+    osc.start(); osc.stop(ctx.currentTime + 0.12);
   } catch(e) {}
 }
-
 function playNotifSound() {
   try {
-    const ctx  = new (window.AudioContext || window.webkitAudioContext)();
-    const osc  = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.connect(gain);
-    gain.connect(ctx.destination);
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator(); const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
     osc.type = 'sine';
     osc.frequency.setValueAtTime(880, ctx.currentTime);
     osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.18);
     gain.gain.setValueAtTime(0.2, ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-    osc.start();
-    osc.stop(ctx.currentTime + 0.35);
+    osc.start(); osc.stop(ctx.currentTime + 0.35);
   } catch(e) {}
 }
 
-// ================================================================
-// MOBILE BACK BUTTON
-// ================================================================
 window.backToSidebar = function() {
   document.getElementById('sidebar').classList.remove('mobile-hidden');
-  activeChatUid  = null;
-  activeChatRoom = null;
-  cleanupListeners();
+  activeChatUid = null; activeChatRoom = null; cleanupListeners();
   document.getElementById('chat-window').classList.add('hidden');
   document.getElementById('chat-welcome').classList.remove('hidden');
 };
 
-// ================================================================
-// KEYBOARD SHORTCUTS
-// ================================================================
 document.addEventListener('keydown', e => {
-  // ESC closes modals and context menu
   if (e.key === 'Escape') {
     document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
     document.getElementById('ctx-menu').classList.remove('show');
     document.getElementById('emoji-picker').classList.remove('show');
   }
 });
+document.getElementById('login-password').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+document.getElementById('reg-password').addEventListener('keydown', e => { if (e.key === 'Enter') doRegister(); });
 
-// ================================================================
-// ENTER KEY IN AUTH FORMS
-// ================================================================
-document.getElementById('login-password').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
-document.getElementById('reg-password').addEventListener('keydown', e => {
-  if (e.key === 'Enter') doRegister();
-});
+// ===== EXPLORE =====
+let exploreTargetUid = null;
 
-// ================================================================
-// INIT: show loading then resolve auth
-// ================================================================
-// Loading screen auto-hides after auth resolves via onAuthStateChanged
-// Minimum display time for polish
-setTimeout(() => {
-  if (document.getElementById('loading-screen') &&
-      !document.getElementById('loading-screen').classList.contains('hidden')) {
-    // Keep showing until auth resolves
+window.switchSideTab = function(tab) {
+  sideTab = tab;
+  ['chats','friends','requests','explore','msgreq'].forEach(t => {
+    const el = document.getElementById(`stab-${t}`);
+    if (el) el.classList.toggle('active', t === tab);
+  });
+  if (tab === 'chats')   renderChatList();
+  else if (tab === 'friends')  renderFriendsList();
+  else if (tab === 'requests') loadAndRenderRequests();
+  else if (tab === 'explore')  loadExplore();
+  else if (tab === 'msgreq')   loadMsgRequests();
+};
+
+async function loadExplore() {
+  const list = document.getElementById('sidebar-list');
+  list.innerHTML = `<div style="display:flex;justify-content:center;padding:32px 0;"><div class="spinner"></div></div>`;
+  try {
+    const snap = await get(ref(db, 'users'));
+    const users = snap.val() || {};
+    const cards = Object.entries(users).filter(([uid]) => uid !== currentUser.uid);
+    if (!cards.length) {
+      list.innerHTML = `<div class="empty-state"><p>Belum ada pengguna lain.</p></div>`;
+      return;
+    }
+    list.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'explore-grid';
+    for (const [uid, p] of cards) {
+      const isFriend = !!friendsList[uid];
+      const alreadySent = (await get(ref(db, `messageRequests/${uid}/${currentUser.uid}`))).exists();
+      const card = document.createElement('div');
+      card.className = 'explore-card';
+      card.innerHTML = `
+        <div class="explore-card-top">
+          <div class="avatar">${avatarHTML(p.avatar||'', p.username||'?', 46)}
+            <div class="online-dot ${p.online?'':'offline'}"></div>
+          </div>
+          <div class="explore-card-info">
+            <div class="explore-card-name">${sanitize(p.username)}</div>
+            <div class="explore-card-uid">ID: ${sanitize(p.userId||'')}</div>
+          </div>
+        </div>
+        <div class="explore-card-bio">${sanitize(p.bio)||'<em style="color:var(--text-muted)">Belum ada bio</em>'}</div>
+        <div class="explore-card-status ${p.online?'online':''}">${p.online?'🟢 Online sekarang':'⚫ Offline'}</div>
+        <div class="explore-card-actions">
+          ${isFriend
+            ? `<button class="btn-msg-request" onclick="openChat('${uid}');switchSideTab('chats')">💬 Chat</button>`
+            : alreadySent
+            ? `<button class="btn-msg-request" disabled>✓ Permintaan Terkirim</button>`
+            : `<button class="btn-msg-request" onclick="openFirstMsgModal('${uid}','${sanitize(p.username)}')">✉ Kirim Pesan</button>`
+          }
+        </div>`;
+      grid.appendChild(card);
+    }
+    list.appendChild(grid);
+  } catch(e) {
+    list.innerHTML = `<div class="empty-state"><p>Gagal memuat: ${sanitize(e.message)}</p></div>`;
   }
-}, 100);
+}
+
+window.openFirstMsgModal = function(uid, name) {
+  exploreTargetUid = uid;
+  document.getElementById('firstmsg-target-name').textContent = name;
+  document.getElementById('firstmsg-input').value = '';
+  openModal('firstmsg-modal');
+};
+
+window.sendFirstMessage = async function() {
+  const text = document.getElementById('firstmsg-input').value.trim();
+  if (!text) { showToast('Tulis pesan dulu.', 'error'); return; }
+  if (!exploreTargetUid || !myProfile) return;
+  try {
+    await set(ref(db, `messageRequests/${exploreTargetUid}/${currentUser.uid}`), {
+      fromUid: currentUser.uid,
+      fromUsername: myProfile.username,
+      fromAvatar: myProfile.avatar || '',
+      fromUserId: myProfile.userId || '',
+      text: text,
+      timestamp: Date.now(),
+      status: 'pending'
+    });
+    await push(ref(db, `notifications/${exploreTargetUid}`), {
+      type: 'message_request',
+      fromUid: currentUser.uid,
+      fromUsername: myProfile.username,
+      timestamp: Date.now()
+    });
+    closeModal('firstmsg-modal');
+    showToast('Permintaan pesan terkirim!');
+    loadExplore();
+  } catch(e) { showToast('Gagal kirim: ' + e.message, 'error'); }
+};
+
+// ===== MESSAGE REQUESTS =====
+function loadMsgRequestsListener() {
+  onValue(ref(db, `messageRequests/${currentUser.uid}`), snap => {
+    const val = snap.val() || {};
+    const count = Object.keys(val).filter(k => val[k].status === 'pending').length;
+    const badge = document.getElementById('msgreq-badge');
+    if (badge) { badge.textContent = count; badge.classList.toggle('hidden', count === 0); }
+    if (sideTab === 'msgreq') renderMsgRequests(val);
+  });
+}
+
+async function loadMsgRequests() {
+  const snap = await get(ref(db, `messageRequests/${currentUser.uid}`));
+  renderMsgRequests(snap.val() || {});
+}
+
+function renderMsgRequests(val) {
+  const list = document.getElementById('sidebar-list');
+  const entries = Object.entries(val).filter(([,d]) => d.status === 'pending');
+  if (!entries.length) {
+    list.innerHTML = `<div class="empty-state"><p>Tidak ada permintaan pesan masuk.</p></div>`;
+    return;
+  }
+  list.innerHTML = '';
+  entries.forEach(([uid, data]) => {
+    const item = document.createElement('div');
+    item.className = 'msg-req-item';
+    item.innerHTML = `
+      <div class="msg-req-top">
+        <div class="avatar">${avatarHTML(data.fromAvatar||'', data.fromUsername||'?', 42)}</div>
+        <div class="msg-req-info">
+          <div class="msg-req-name">${sanitize(data.fromUsername)}</div>
+          <div class="msg-req-uid">ID: ${sanitize(data.fromUserId||'')}</div>
+        </div>
+      </div>
+      <div class="msg-req-hidden">🔒 Pesan tersembunyi — terima untuk melihat isi pesan</div>
+      <div class="msg-req-actions">
+        <button class="btn-accept" onclick="acceptMsgRequest('${uid}')">Terima</button>
+        <button class="btn-decline" onclick="declineMsgRequest('${uid}')">Tolak</button>
+      </div>`;
+    list.appendChild(item);
+  });
+}
+
+window.acceptMsgRequest = async function(uid) {
+  try {
+    const snap = await get(ref(db, `messageRequests/${currentUser.uid}/${uid}`));
+    const data = snap.val();
+    if (!data) return;
+    // Jadikan teman
+    await update(ref(db, `friends/${currentUser.uid}`), { [uid]: true });
+    await update(ref(db, `friends/${uid}`), { [currentUser.uid]: true });
+    // Kirim pesan pertama ke room chat
+    const rid = roomId(currentUser.uid, uid);
+    await push(ref(db, `chats/${rid}`), {
+      text: data.text,
+      senderUid: uid,
+      senderName: data.fromUsername,
+      timestamp: data.timestamp,
+      read: false, deleted: false, starred: false, edited: false
+    });
+    // Hapus request
+    await set(ref(db, `messageRequests/${currentUser.uid}/${uid}/status`), 'accepted');
+    // Notif ke pengirim
+    await push(ref(db, `notifications/${uid}`), {
+      type: 'msgreq_accepted',
+      fromUid: currentUser.uid,
+      fromUsername: myProfile.username,
+      timestamp: Date.now()
+    });
+    showToast(`Kamu sekarang terhubung dengan ${data.fromUsername}!`);
+    loadMsgRequests();
+  } catch(e) { showToast('Gagal terima: ' + e.message, 'error'); }
+};
+
+window.declineMsgRequest = async function(uid) {
+  try {
+    await set(ref(db, `messageRequests/${currentUser.uid}/${uid}/status`), 'declined');
+    showToast('Permintaan ditolak.', 'info');
+    loadMsgRequests();
+  } catch(e) { showToast('Gagal tolak: ' + e.message, 'error'); }
+};
 
 </script>
 </body>
