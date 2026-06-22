@@ -4,6 +4,10 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ChatApp – Modern Messaging</title>
+  <link rel="manifest" href="manifest.json"/>
+<link rel="icon" type="image/png" href="favicon.png"/>
+<link rel="apple-touch-icon" href="icon-192.png"/>
+<meta name="theme-color" content="#25bcd3"/>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
@@ -1185,6 +1189,7 @@
 </div>
 <div class="stab stab-shop" id="stab-shop" onclick="switchSideTab('shop')">🏪</div>
 <div class="stab" id="stab-top" onclick="switchSideTab('top')">🏆</div>
+<div class="stab" id="stab-install" onclick="triggerInstallPrompt()" style="color:var(--accent);">📲</div>
     </div>
     <div class="sidebar-list" id="sidebar-list">
       <div class="empty-state" id="initial-empty">
@@ -3466,7 +3471,47 @@ function startSystemListeners() {
   });
 }
 
+// ===== PWA INSTALL PROMPT =====
+let deferredInstallPrompt = null;
 
+// Daftarkan service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(err => {
+      console.log('Service worker gagal register:', err);
+    });
+  });
+}
+
+// Tangkap event saat browser siap tawarkan install
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  const installBtn = document.getElementById('stab-install');
+  if (installBtn) installBtn.style.display = 'block';
+});
+
+window.triggerInstallPrompt = async function() {
+  if (!deferredInstallPrompt) {
+    showToast('App sudah terinstall atau browser tidak mendukung fitur ini.', 'info');
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  const choice = await deferredInstallPrompt.userChoice;
+  if (choice.outcome === 'accepted') {
+    showToast('Terima kasih sudah install ChatApp! 🎉');
+  } else {
+    showToast('Instalasi dibatalkan.', 'info');
+  }
+  deferredInstallPrompt = null;
+};
+
+// Sembunyikan tombol kalau sudah terinstall
+window.addEventListener('appinstalled', () => {
+  const installBtn = document.getElementById('stab-install');
+  if (installBtn) installBtn.style.display = 'none';
+  showToast('ChatApp berhasil terinstall! 📲');
+});
 
 </script>
 </body>
