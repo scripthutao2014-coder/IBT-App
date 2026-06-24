@@ -1380,6 +1380,10 @@
 <button class="btn-secondary fw" onclick="closeModal('profile-modal');openModal('wallet-modal');loadWallet()">👛 Dompet Koin</button>
       <button class="btn-primary" onclick="saveProfile()">Simpan Perubahan</button>
       <button class="btn-secondary fw" onclick="closeModal('profile-modal');openModal('report-bug-modal')">🐛 Laporkan Bug</button>
+      <button class="btn-secondary fw" onclick="gantiTema('wa')" style="display:flex;align-items:center;justify-content:center;gap:9px;">
+        <span style="width:14px;height:14px;border-radius:50%;background:#25d366;flex-shrink:0;display:inline-block;"></span>
+        Pindah ke Tema WhatsApp (Hijau)
+      </button>
       <button class="btn-danger fw" onclick="doLogout()">Keluar dari Akun</button>
     </div>
   </div>
@@ -1569,6 +1573,16 @@ function showToast(msg, type='success', dur=3000) {
 }
 window.openModal  = id => document.getElementById(id).classList.add('show');
 window.closeModal = id => document.getElementById(id).classList.remove('show');
+window.gantiTema = function(tujuan) {
+  if (typeof activeChatUid !== 'undefined' && activeChatUid) {
+    localStorage.setItem('lastOpenChatUid', activeChatUid);
+  }
+  if (tujuan === 'wa') {
+    window.location.href = 'index-WhatsAppTheme.html';
+  } else {
+    window.location.href = 'index.html';
+  }
+};
 function setLoading(btnId, loading, text='') {
   const btn = document.getElementById(btnId);
   if (!btn) return;
