@@ -1,0 +1,8 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "io.github.scripthutao2014_coder.twa",
+    "sha256_cert_fingerprints": ["19:D1:75:C9:D9:F3:57:93:C8:AC:B5:97:BE:41:6F:8C:61:9E:13:39:6B:62:CE:83:58:FC:7B:86:F8:93:23:DA"]
+  }
+}]
